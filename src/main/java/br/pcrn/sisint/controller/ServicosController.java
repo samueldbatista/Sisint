@@ -21,9 +21,8 @@ import java.util.List;
 
 @Seguranca(tipoUsuario = TipoUsuario.TECNICO)
 @Controller
-public class ServicosController {
+public class ServicosController extends ControladorSisInt{
 
-    private Result result;
     private ServicoDao servicoDao;
     private Validator validador;
     private UsuarioDAO usuarioDAO;
@@ -40,9 +39,9 @@ public class ServicosController {
     }
 
     @Inject
-    public ServicosController(Result result, ServicoDao servicoDao, Validator validador, UsuarioDAO usuarioDAO,
+    public ServicosController(Result resultado, ServicoDao servicoDao, Validator validador, UsuarioDAO usuarioDAO,
                               ServicosNegocio servicosNegocio) {
-        this.result = result;
+        super(resultado);
         this.servicoDao = servicoDao;
         this.validador =  validador;
         this.usuarioDAO= usuarioDAO;
@@ -50,11 +49,11 @@ public class ServicosController {
     }
 
     public void form() {
-        result.include("usuarios", servicosNegocio.geraListaOpcoesUsuarios());
-        result.include("setores", servicosNegocio.geraListaOpcoesSetor());
-        result.include("status", OpcaoSelect.toListaOpcoes(StatusServico.values()));
-        result.include("statusTarefa", OpcaoSelect.toListaOpcoes(StatusTarefa.values()));
-        result.include("prioridades", OpcaoSelect.toListaOpcoes(Prioridade.values()));
+        resultado.include("usuarios", servicosNegocio.geraListaOpcoesUsuarios());
+        resultado.include("setores", servicosNegocio.geraListaOpcoesSetor());
+        resultado.include("status", OpcaoSelect.toListaOpcoes(StatusServico.values()));
+        resultado.include("statusTarefa", OpcaoSelect.toListaOpcoes(StatusTarefa.values()));
+        resultado.include("prioridades", OpcaoSelect.toListaOpcoes(Prioridade.values()));
     }
 
     @Post("/servicos")
@@ -99,32 +98,32 @@ public class ServicosController {
         }
 
         this.servicoDao.salvar(servico);
-        result.redirectTo(InicioController.class).index();
+        resultado.redirectTo(InicioController.class).index();
     }
 
     public void logServico(Long id) {
         Servico servico = servicoDao.BuscarPorId(id);
-        result.include("listaLogs", servico.getLogServicos());
+        resultado.include("listaLogs", servico.getLogServicos());
     }
 
     public void lista() {
         List<Servico> servicos = this.servicoDao.listarServicos();
-        result.include("servicos", servicos);
+        resultado.include("servicos", servicos);
     }
 
     public void meusServicos() {
         List<Servico> servicos = this.servicoDao.listarMeusServicos(usuarioLogado.getUsuario().getId());
-        result.include("servicos", servicos);
+        resultado.include("servicos", servicos);
     }
 
     public void servicosAbertos() {
         List<Servico> servicos = this.servicoDao.listarServicosEmAberto();
-        result.include("servicos", servicos);
+        resultado.include("servicos", servicos);
     }
 
     public void detalhes(Long id){
         Servico servico = servicoDao.BuscarPorId(id);
-        result.include("servico",servico);
+        resultado.include("servico",servico);
     }
 
     @Get
@@ -154,7 +153,7 @@ public class ServicosController {
                 jsonObject.addProperty("pendente",pendente);
                 listaServicos.add(jsonObject);
             }
-            result.use(Results.json()).withoutRoot().from(listaServicos).recursive().serialize();
+            resultado.use(Results.json()).withoutRoot().from(listaServicos).recursive().serialize();
         } else {
 
         }
@@ -175,7 +174,7 @@ public class ServicosController {
                 jsonObject.addProperty("usuario", logServico.getUsuario().getId());
                 listaServicos.add(jsonObject);
             }
-            result.use(Results.json()).withoutRoot().from(listaServicos).recursive().serialize();
+            resultado.use(Results.json()).withoutRoot().from(listaServicos).recursive().serialize();
         } else {
 
         }
@@ -183,13 +182,13 @@ public class ServicosController {
 
     public void editar(Long id){
         Servico  servico = this.servicoDao.BuscarPorId(id);
-        result.include("setores", servicosNegocio.geraListaOpcoesSetor());
-        result.include("usuarios", servicosNegocio.geraListaOpcoesUsuarios());
-        result.include("status", OpcaoSelect.toListaOpcoes(StatusServico.values()));
-        result.include("statusTarefa",OpcaoSelect.toListaOpcoes(StatusTarefa.values()));
-        result.include("prioridades", OpcaoSelect.toListaOpcoes(Prioridade.values()));
-        result.include("listaLogs", servico.getLogServicos());
-        result.include(servico);
-        result.of(this).form();
+        resultado.include("setores", servicosNegocio.geraListaOpcoesSetor());
+        resultado.include("usuarios", servicosNegocio.geraListaOpcoesUsuarios());
+        resultado.include("status", OpcaoSelect.toListaOpcoes(StatusServico.values()));
+        resultado.include("statusTarefa",OpcaoSelect.toListaOpcoes(StatusTarefa.values()));
+        resultado.include("prioridades", OpcaoSelect.toListaOpcoes(Prioridade.values()));
+        resultado.include("listaLogs", servico.getLogServicos());
+        resultado.include(servico);
+        resultado.of(this).form();
     }
 }

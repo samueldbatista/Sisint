@@ -8,19 +8,20 @@ import br.pcrn.sisint.dominio.UsuarioLogado;
 import javax.inject.Inject;
 @Path("/login")
 @Controller
-public class LoginController {
+public class LoginController extends ControladorSisInt{
 
     private UsuarioLogado usuarioLogado;
-    private Result resultado;
     private UsuarioDAO usuarioDao;
 
     @Deprecated
-    LoginController(){}
+    LoginController(){
+        this(null,null,null);
+    }
 
     @Inject
     public LoginController(UsuarioLogado usuarioLogado, Result resultado, UsuarioDAO usuarioDAO) {
+        super(resultado);
         this.usuarioLogado = usuarioLogado;
-        this.resultado = resultado;
         this.usuarioDao = usuarioDAO;
     }
 

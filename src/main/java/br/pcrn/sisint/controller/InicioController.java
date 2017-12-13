@@ -17,11 +17,11 @@ import javax.inject.Inject;
 @Path("/")
 @Seguranca(tipoUsuario = TipoUsuario.TECNICO)
 @Controller
-public class InicioController {
+public class InicioController extends ControladorSisInt{
 
-    private Result result;
     private ServicoDao servicoDao;
     private TarefaDao tarefaDao;
+
     @Inject
     private Validator validator;
 
@@ -31,8 +31,8 @@ public class InicioController {
     }
 
     @Inject
-    public InicioController(Result result, ServicoDao servicoDao, TarefaDao tarefaDao) {
-        this.result = result;
+    public InicioController(Result resultado, ServicoDao servicoDao, TarefaDao tarefaDao) {
+        super(resultado);
         this.servicoDao = servicoDao;
         this.tarefaDao = tarefaDao;
 
@@ -42,18 +42,18 @@ public class InicioController {
     public void index(){
         Message message;
         try {
-        result.include("totalServicos",servicoDao.contarTotalServicos());
-        result.include("servicosAbertos",servicoDao.contarServicosStatus(StatusServico.EM_ESPERA));
-        result.include("servicosExecucao",servicoDao.contarServicosStatus(StatusServico.EM_EXECUCAO));
-        result.include("totalTarefas",tarefaDao.contarTotalTarefas());
-        result.include("hahaha",tarefaDao.buscarPorId(545l));
+        resultado.include("totalServicos",servicoDao.contarTotalServicos());
+        resultado.include("servicosAbertos",servicoDao.contarServicosStatus(StatusServico.EM_ESPERA));
+        resultado.include("servicosExecucao",servicoDao.contarServicosStatus(StatusServico.EM_EXECUCAO));
+        resultado.include("totalTarefas",tarefaDao.contarTotalTarefas());
+        resultado.include("hahaha",tarefaDao.buscarPorId(545l));
         message = new SimpleMessage("success","mensagem.salvar.sucesso");
-        this.result.include("mensagem",message);
+        this.resultado.include("mensagem",message);
         } catch (Exception e) {
             message = new SimpleMessage("error","mensagem.salvar.error");
-            result.include("mensagem",message);
+            resultado.include("mensagem",message);
         }
 //        validator.onErrorRedirectTo(this).index();
-//        this.result.include(validator.add(new I18nMessage("success","Carregado com sucesso")));
+//        this.resultado.include(validator.add(new I18nMessage("success","Carregado com sucesso")));
     }
 }

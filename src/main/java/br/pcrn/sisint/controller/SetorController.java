@@ -11,12 +11,19 @@ import br.pcrn.sisint.dominio.Setor;
 import javax.inject.Inject;
 
 @Controller
-public class SetorController {
-    @Inject
+public class SetorController extends ControladorSisInt{
+
     private SetorDao setorDao;
 
+    @Deprecated
+    public SetorController(){
+        this(null,null);
+    }
     @Inject
-    private Result resultado;
+    public SetorController(Result resultado, SetorDao setorDao) {
+        super(resultado);
+        this.setorDao = setorDao;
+    }
 
     public void lista(){
         resultado.include("setores", setorDao.todos());

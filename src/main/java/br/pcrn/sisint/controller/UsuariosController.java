@@ -19,9 +19,8 @@ import java.time.LocalDate;
  * Created by samue on 09/09/2017.
  */
 @Controller
-public class UsuariosController {
+public class UsuariosController extends ControladorSisInt{
 
-    Result result;
     UsuarioDAO usuarioDAO;
 
     /**
@@ -32,13 +31,13 @@ public class UsuariosController {
     }
 
     @Inject
-    public UsuariosController(UsuarioDAO usuarioDAO, Result result) {
+    public UsuariosController(UsuarioDAO usuarioDAO, Result resultado) {
+        super(resultado);
         this.usuarioDAO = usuarioDAO;
-        this.result = result;
     }
     @Seguranca(tipoUsuario = TipoUsuario.ADMINISTRADOR)
     public void form(){
-        this.result.include("tipoUsuario", OpcaoSelect.toListaOpcoes(TipoUsuario.values()));
+        this.resultado.include("tipoUsuario", OpcaoSelect.toListaOpcoes(TipoUsuario.values()));
     }
 
     @Post("/usuarios")
@@ -48,7 +47,7 @@ public class UsuariosController {
         usuario.setDeletado(false);
         usuario.setSenha(criptografarSenha(usuario.getSenha()));
         this.usuarioDAO.salvar(usuario);
-        result.of(this).form();
+        resultado.of(this).form();
     }
 
     private String criptografarSenha(String senha) {
