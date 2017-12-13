@@ -1,0 +1,28 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <c:set var="ctx" value="${pageContext.request.contextPath}"/>
+
+    <jsp:directive.attribute name="titulo" required="true" rtexprvalue="true" description="Chave do titulo"/>
+    <jsp:directive.attribute name="tipo" required="false" rtexprvalue="true"
+                             description="Tipo contextual do bootstrap"/>
+    <jsp:directive.attribute name="classes" required="false" rtexprvalue="true"
+                             description="Classes do grid do painel"/>
+    <jsp:directive.attribute name="name" required="false" rtexprvalue="true" description="Name do painel"/>
+    <jsp:directive.attribute name="id" required="false" rtexprvalue="true" description="id do painel"/>
+    <jsp:directive.attribute name="comecarFechado" required="false" rtexprvalue="true"
+                             description="Se o painel deve comecar fechado"/>
+    <jsp:directive.attribute name="chevronTexto" required="false" rtexprvalue="true" description="Texto ao lado do Chevron"/>
+
+    <div class="panel">
+        <div class="panel-heading">
+            <div class="panel-title">${titulo}</div>
+        </div>
+        <div class="panel-body" style="padding-top: 0px;">
+            <a class="btn btn-info" style="margin-bottom: 16px;" href="${linkTo[ServicosController].form}">Cadastrar</a>
+            <jsp:doBody/>
+        </div>
+    </div>
+</div>
