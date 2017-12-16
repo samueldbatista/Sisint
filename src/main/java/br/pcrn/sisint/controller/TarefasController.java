@@ -2,12 +2,10 @@ package br.pcrn.sisint.controller;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Message;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.pcrn.sisint.anotacoes.Transacional;
-import br.pcrn.sisint.dao.TarefaDao;
-import br.pcrn.sisint.dao.UsuarioDAO;
+import br.pcrn.sisint.dao.*;
 import br.pcrn.sisint.dominio.StatusTarefa;
 import br.pcrn.sisint.dominio.Tarefa;
 import br.pcrn.sisint.dominio.Usuario;
@@ -20,22 +18,25 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class TarefasController extends ControladorSisInt {
+public class TarefasController extends ControladorSisInt<Tarefa> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TarefasController.class);
-
     private TarefaDao tarefaDao;
-    @Inject
-    private UsuarioDAO usuarioDAO;
+    private EntidadeGenericaDao<Tarefa> dao;
 
+    @Inject
+    private UsuarioDao usuarioDao;
+
+    @Deprecated
     public TarefasController() {
-        this(null, null);
+        this(null,null, null);
     }
 
     @Inject
-    public TarefasController(Result resultado, TarefaDao tarefaDao) {
+    public TarefasController(Result resultado, EntidadeGenericaDao<Tarefa> dao, TarefaDao tarefaDao) {
         super(resultado);
         this.tarefaDao = tarefaDao;
+        this.dao = dao;
     }
 
     public void form(){
@@ -44,7 +45,7 @@ public class TarefasController extends ControladorSisInt {
     }
 
     public List<OpcaoSelect> geraListaOpcoesUsuarios() {
-        List<Usuario> todos = this.usuarioDAO.todos();
+        List<Usuario> todos = this.usuarioDao.listar().stream().collect(Collectors.toList());
         return todos.stream().map(
                 usuario -> new OpcaoSelect(usuario.getNome(), usuario.getId()))
                 .collect(Collectors.toList());

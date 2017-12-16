@@ -7,7 +7,7 @@ import java.time.LocalDate;
  * Created by samue on 09/09/2017.
  */
 @Entity
-public class Tarefa {
+public class Tarefa extends Entidade{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

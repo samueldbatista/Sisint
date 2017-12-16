@@ -1,17 +1,17 @@
 package br.pcrn.sisint.controller;
 
 import br.com.caelum.vraptor.*;
-import br.pcrn.sisint.dao.UsuarioDAO;
+import br.pcrn.sisint.dao.UsuarioDao;
 import br.pcrn.sisint.dominio.Usuario;
 import br.pcrn.sisint.dominio.UsuarioLogado;
 
 import javax.inject.Inject;
 @Path("/login")
 @Controller
-public class LoginController extends ControladorSisInt{
+public class LoginController extends Controlador {
 
     private UsuarioLogado usuarioLogado;
-    private UsuarioDAO usuarioDao;
+    private UsuarioDao usuarioDao;
 
     @Deprecated
     LoginController(){
@@ -19,10 +19,10 @@ public class LoginController extends ControladorSisInt{
     }
 
     @Inject
-    public LoginController(UsuarioLogado usuarioLogado, Result resultado, UsuarioDAO usuarioDAO) {
+    public LoginController(UsuarioLogado usuarioLogado, Result resultado, UsuarioDao usuarioDao) {
         super(resultado);
         this.usuarioLogado = usuarioLogado;
-        this.usuarioDao = usuarioDAO;
+        this.usuarioDao = usuarioDao;
     }
 
     @Post("/login")

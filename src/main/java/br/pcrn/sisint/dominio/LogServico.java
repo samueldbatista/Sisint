@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class LogServico {
+public class LogServico extends Entidade{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

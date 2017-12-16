@@ -6,11 +6,11 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class SetorJpaDao implements SetorDao{
-    private EntityManager manager;
-
+public class SetorJpaDao extends EntidadeGenericaJpaDao<Setor> implements SetorDao{
     /**
      * @deprecated CDI
      */
@@ -21,32 +21,16 @@ public class SetorJpaDao implements SetorDao{
 
     @Inject
     public SetorJpaDao(EntityManager entityManager) {
-        this.manager = entityManager;
+        super(entityManager, Setor.class);
     }
 
     @Override
-    public void salvar(Setor setor) {
-        if(setor.getId() != null){
-            this.manager.merge(setor);
-        } else{
-            this.manager.persist(setor);
-        }
-
+    public List<Setor> listar() {
+        return super.listar().stream().collect(Collectors.toList());
     }
-
 
     @Override
     public List<Setor> todos() {
-        Query query = this.manager.createQuery("SELECT p FROM Setor p where p.deletado = false");
-
-        return query.getResultList();
-    }
-
-    @Override
-    public Setor buscarPorId(Long id){
-        Query query = manager.createQuery("select s from Setor s where s.id = :id");
-
-        query.setParameter("id", id);
-        return (Setor) query.getSingleResult();
+        return super.todos().stream().collect(Collectors.toList());
     }
 }

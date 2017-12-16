@@ -5,8 +5,9 @@ import br.com.caelum.vraptor.validator.Validator;
 import br.com.caelum.vraptor.view.Results;
 import br.pcrn.sisint.anotacoes.Seguranca;
 import br.pcrn.sisint.anotacoes.Transacional;
+import br.pcrn.sisint.dao.EntidadeGenericaDao;
 import br.pcrn.sisint.dao.ServicoDao;
-import br.pcrn.sisint.dao.UsuarioDAO;
+import br.pcrn.sisint.dao.UsuarioDao;
 import br.pcrn.sisint.dominio.*;
 import br.pcrn.sisint.negocio.ServicosNegocio;
 import br.pcrn.sisint.util.OpcaoSelect;
@@ -16,17 +17,17 @@ import com.google.gson.JsonObject;
 import javax.inject.Inject;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Seguranca(tipoUsuario = TipoUsuario.TECNICO)
 @Controller
-public class ServicosController extends ControladorSisInt{
+public class ServicosController extends ControladorSisInt<Servico> {
 
     private ServicoDao servicoDao;
     private Validator validador;
-    private UsuarioDAO usuarioDAO;
+    private UsuarioDao usuarioDao;
     private ServicosNegocio servicosNegocio;
+    private EntidadeGenericaDao<Servico> dao;
 
     @Inject
     private UsuarioLogado usuarioLogado;
@@ -35,16 +36,17 @@ public class ServicosController extends ControladorSisInt{
      * @deprecated CDI eyes only
      */
     protected ServicosController() {
-        this(null,null, null, null, null);
+        this(null,null, null, null, null,null);
     }
 
     @Inject
-    public ServicosController(Result resultado, ServicoDao servicoDao, Validator validador, UsuarioDAO usuarioDAO,
+    public ServicosController(Result resultado, EntidadeGenericaDao<Servico> dao, ServicoDao servicoDao, Validator validador, UsuarioDao usuarioDao,
                               ServicosNegocio servicosNegocio) {
         super(resultado);
+        this.dao = dao;
         this.servicoDao = servicoDao;
         this.validador =  validador;
-        this.usuarioDAO= usuarioDAO;
+        this.usuarioDao = usuarioDao;
         this.servicosNegocio = servicosNegocio;
     }
 
@@ -107,7 +109,7 @@ public class ServicosController extends ControladorSisInt{
     }
 
     public void lista() {
-        List<Servico> servicos = this.servicoDao.listarServicos();
+        List<Servico> servicos = this.servicoDao.listar();
         resultado.include("servicos", servicos);
     }
 
@@ -190,5 +192,13 @@ public class ServicosController extends ControladorSisInt{
         resultado.include("listaLogs", servico.getLogServicos());
         resultado.include(servico);
         resultado.of(this).form();
+    }
+
+    @Path("/remover")
+    @Transacional
+    public void remover(Long id) {
+        Servico servico = this.dao.buscarPorId(id);
+        dao.remover(servico);
+        resultado.redirectTo(InicioController.class).index();
     }
 }

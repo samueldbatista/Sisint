@@ -11,47 +11,19 @@ import java.util.List;
 /**
  * Created by samue on 08/09/2017.
  */
-public class UsuarioJpaDAO implements UsuarioDAO {
-
-    private EntityManager manager;
+public class UsuarioJpaDao extends EntidadeGenericaJpaDao<Usuario> implements UsuarioDao {
 
     /**
      * @deprecated CDI
      */
     @Deprecated
-    public UsuarioJpaDAO() {
+    public UsuarioJpaDao() {
         this(null);
     }
 
     @Inject
-    public UsuarioJpaDAO(EntityManager entityManager) {
-        this.manager = entityManager;
-    }
-
-    @Override
-    public void salvar(Usuario usuario) {
-        if(usuario.getId() != null) {
-            this.manager.merge(usuario);
-        } else {
-            this.manager.persist(usuario);
-        }
-    }
-
-    @Override
-    public void buscarPorId() {
-
-    }
-
-    @Override
-    public void remover() {
-
-    }
-
-    @Override
-    public List<Usuario> todos() {
-        Query query = this.manager.createQuery("SELECT p FROM Usuario p where p.deletado = false");
-
-        return query.getResultList();
+    public UsuarioJpaDao(EntityManager entityManager) {
+        super(entityManager, Usuario.class);
     }
 
     @Override

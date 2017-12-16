@@ -3,7 +3,7 @@ package br.pcrn.sisint.negocio;
 import br.pcrn.sisint.dao.ServicoDao;
 import br.pcrn.sisint.dao.SetorDao;
 import br.pcrn.sisint.dao.TarefaJpaDao;
-import br.pcrn.sisint.dao.UsuarioDAO;
+import br.pcrn.sisint.dao.UsuarioDao;
 import br.pcrn.sisint.dominio.*;
 import br.pcrn.sisint.util.OpcaoSelect;
 
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class ServicosNegocio {
     private ServicoDao servicoDao;
     private SetorDao setorDao;
-    private UsuarioDAO usuarioDAO;
+    private UsuarioDao usuarioDao;
 
     @Inject
     private TarefaJpaDao tarefaJpaDao;
@@ -30,14 +30,14 @@ public class ServicosNegocio {
     }
 
     @Inject
-    public ServicosNegocio(ServicoDao servicoDao, UsuarioDAO usuarioDAO,SetorDao setorDao) {
+    public ServicosNegocio(ServicoDao servicoDao, UsuarioDao usuarioDao, SetorDao setorDao) {
         this.servicoDao = servicoDao;
-        this.usuarioDAO = usuarioDAO;
+        this.usuarioDao = usuarioDao;
         this.setorDao = setorDao;
     }
 
     public List<OpcaoSelect> geraListaOpcoesUsuarios() {
-        List<Usuario> todos = this.usuarioDAO.todos();
+        List<Usuario> todos = this.usuarioDao.todos().stream().collect(Collectors.toList());
         return todos.stream().map(
                 usuario -> new OpcaoSelect(usuario.getNome(), usuario.getId()))
                 .collect(Collectors.toList());

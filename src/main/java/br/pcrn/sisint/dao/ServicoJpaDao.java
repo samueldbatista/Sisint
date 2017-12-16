@@ -4,27 +4,39 @@ import br.pcrn.sisint.dominio.LogServico;
 import br.pcrn.sisint.dominio.Servico;
 import br.pcrn.sisint.dominio.StatusServico;
 import br.pcrn.sisint.dominio.Tarefa;
-import org.hibernate.SQLQuery;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by samue on 17/09/2017.
  */
-public class ServicoJpaDao implements ServicoDao {
+public class ServicoJpaDao extends EntidadeGenericaJpaDao<Servico> implements ServicoDao {
+
+    @Deprecated
+    public ServicoJpaDao() {
+        this(null);
+    }
 
     @Inject
-    EntityManager manager;
+    public ServicoJpaDao(EntityManager entityManager) {
+        super(entityManager, Servico.class);
+    }
 
     @Override
-    public void salvar(Servico servico) {
+    public Servico salvar(Servico servico) {
         referenciarLogsTarefas(servico);
-        this.manager.merge(servico);
+        return super.salvar(servico);
+    }
+
+    @Override
+    public List<Servico> listar() {
+        return super.listar().stream().collect(Collectors.toList());
     }
 
     private void referenciarLogsTarefas(Servico servico) {
@@ -89,11 +101,4 @@ public class ServicoJpaDao implements ServicoDao {
         return (Servico) query.getSingleResult();
     }
 
-    @Override
-    public Long ultimoId() {
-        String seq_id = "servico_id_seq";
-        Query query = manager.createNativeQuery("SELECT last_value from servico_id_seq");
-        BigInteger nextId = (BigInteger) query.getSingleResult();
-        return Long.valueOf(nextId.toString());
-    }
 }

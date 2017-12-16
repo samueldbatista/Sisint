@@ -1,7 +1,6 @@
 package br.pcrn.sisint.controller;
 
 import br.com.caelum.vraptor.Controller;
-import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.pcrn.sisint.anotacoes.Transacional;
@@ -11,7 +10,7 @@ import br.pcrn.sisint.dominio.Setor;
 import javax.inject.Inject;
 
 @Controller
-public class SetorController extends ControladorSisInt{
+public class SetorController extends ControladorSisInt<Setor> {
 
     private SetorDao setorDao;
 

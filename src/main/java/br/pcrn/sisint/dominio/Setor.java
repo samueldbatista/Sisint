@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by samue on 08/09/2017.
  */
 @Entity
-public class Setor {
+public class Setor extends Entidade{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

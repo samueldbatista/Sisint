@@ -1,12 +1,11 @@
 package br.pcrn.sisint.controller;
 
 import br.com.caelum.vraptor.Controller;
-import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.pcrn.sisint.anotacoes.Seguranca;
 import br.pcrn.sisint.anotacoes.Transacional;
-import br.pcrn.sisint.dao.UsuarioDAO;
+import br.pcrn.sisint.dao.UsuarioDao;
 import br.pcrn.sisint.dominio.TipoUsuario;
 import br.pcrn.sisint.dominio.Usuario;
 import br.pcrn.sisint.util.Criptografia;
@@ -19,9 +18,9 @@ import java.time.LocalDate;
  * Created by samue on 09/09/2017.
  */
 @Controller
-public class UsuariosController extends ControladorSisInt{
+public class UsuariosController extends ControladorSisInt<Usuario> {
 
-    UsuarioDAO usuarioDAO;
+    UsuarioDao usuarioDao;
 
     /**
      * @deprecated CDI eyes only
@@ -31,9 +30,9 @@ public class UsuariosController extends ControladorSisInt{
     }
 
     @Inject
-    public UsuariosController(UsuarioDAO usuarioDAO, Result resultado) {
+    public UsuariosController(UsuarioDao usuarioDao, Result resultado) {
         super(resultado);
-        this.usuarioDAO = usuarioDAO;
+        this.usuarioDao = usuarioDao;
     }
     @Seguranca(tipoUsuario = TipoUsuario.ADMINISTRADOR)
     public void form(){
@@ -46,7 +45,7 @@ public class UsuariosController extends ControladorSisInt{
         usuario.setDataCadastro(LocalDate.now());
         usuario.setDeletado(false);
         usuario.setSenha(criptografarSenha(usuario.getSenha()));
-        this.usuarioDAO.salvar(usuario);
+        this.usuarioDao.salvar(usuario);
         resultado.of(this).form();
     }
 

@@ -1,17 +1,14 @@
 package br.pcrn.sisint.controller;
 
 import br.com.caelum.vraptor.Result;
+import br.pcrn.sisint.dao.EntidadeGenericaDao;
+import br.pcrn.sisint.dominio.Entidade;
 
-import javax.inject.Inject;
-
-public abstract class ControladorSisInt {
-
-    protected final Result resultado;
+public class ControladorSisInt<T extends Entidade> extends Controlador {
 
     public ControladorSisInt(Result resultado) {
-        this.resultado = resultado;
+        super(resultado);
     }
-
 
 
 }

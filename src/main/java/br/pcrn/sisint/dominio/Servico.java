@@ -8,7 +8,7 @@ import java.util.List;
  * Created by samue on 09/09/2017.
  */
 @Entity
-public class Servico {
+public class Servico extends Entidade{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

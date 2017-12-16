@@ -131,6 +131,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div id="cadastro-tarefa">
                         <div class="row" align="right">
                             <button id="btnAdicionarTarefa" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
@@ -142,6 +143,7 @@
                     </div>
 
                 </div>
+
                 <div class="panel-footer" align="right">
                     <button class="btn btn-primary" type="submit">Salvar</button>
                 </div>
