@@ -69,7 +69,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Senha</label>
                         <div class="col-sm-10">
-                            <input class="form-control" id="senha-usuario" name="usuario.senha" type="password" value="${usuario.senha}">
+                            <input class="form-control" id="senha-usuario" name="usuario.senha" type="password">
                         </div>
                     </div>
                     <button class="btn btn-primary col-md-offset-10" type="submit">Cadastrar</button>

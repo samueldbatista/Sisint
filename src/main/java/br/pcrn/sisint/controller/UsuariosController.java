@@ -49,6 +49,15 @@ public class UsuariosController extends ControladorSisInt<Usuario> {
         resultado.of(this).form();
     }
 
+    public void lista() {
+        resultado.include("usuarios", usuarioDao.listar());
+    }
+
+    public void editar() {
+        this.resultado.include("tipoUsuario", OpcaoSelect.toListaOpcoes(TipoUsuario.values()));
+        resultado.of(this).form();
+    }
+
     private String criptografarSenha(String senha) {
         return Criptografia.criptografar(senha);
     }
