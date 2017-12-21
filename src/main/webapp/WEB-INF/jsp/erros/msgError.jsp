@@ -24,7 +24,7 @@
     </c:if>
     <c:if test="${error == mensagem.category}">
     <div class="alert alert-danger">
-        <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+        <strong>Tente Novamente</strong> <fmt:message key="${mensagem.message}"/>
     </div>
     </c:if>
 </c:if>

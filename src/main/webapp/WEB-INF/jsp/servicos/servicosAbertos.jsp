@@ -12,7 +12,7 @@
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
 <!DOCTYPE html>
-<tags:teste>
+<tags:layout>
     <jsp:attribute name="cabecalho">
         <style>
             .panel {
@@ -70,4 +70,4 @@
             </div>
         </div>
     </jsp:body>
-</tags:teste>
+</tags:layout>

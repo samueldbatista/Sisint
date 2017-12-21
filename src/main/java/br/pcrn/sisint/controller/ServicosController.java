@@ -61,6 +61,7 @@ public class ServicosController extends ControladorSisInt<Servico> {
     @Post("/servicos")
     @Transacional
     public void salvar(Servico servico) {
+        try {
         if(servico.getId() == null){
             servico.setDataAbertura(LocalDate.now());
             if(servico.getTecnico().getId() == null) {
@@ -100,7 +101,12 @@ public class ServicosController extends ControladorSisInt<Servico> {
         }
 
         this.servicoDao.salvar(servico);
+        resultado.include("success", "mensagem.salvar.sucesso");
         resultado.redirectTo(InicioController.class).index();
+        } catch (Exception e) {
+            resultado.include("error", "mensagem.salvar.error");
+            resultado.redirectTo(InicioController.class).index();
+        }
     }
 
     public void logServico(Long id) {

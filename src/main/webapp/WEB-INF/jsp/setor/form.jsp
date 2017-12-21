@@ -10,7 +10,7 @@
 <%@ taglib prefix="tags" uri="tagSisInt" %>
 <%@ taglib prefix="td" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<tags:teste>
+<tags:layout>
     <jsp:attribute name="cabecalho">
     </jsp:attribute>
     <jsp:attribute name="rodape">
@@ -56,4 +56,4 @@
             </div>
         </div>
     </jsp:body>
-</tags:teste>
+</tags:layout>

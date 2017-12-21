@@ -10,7 +10,7 @@
 <%@ taglib prefix="tags" uri="tagSisInt" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<tags:teste>
+<tags:layout>
 
     <jsp:attribute name="cabecalho">
         <link href="${ctx}/resources/plugins/dataPicker/dataPicker.css" rel="stylesheet"/>
@@ -64,4 +64,4 @@
         </div>
 
     </jsp:body>
-</tags:teste>
+</tags:layout>

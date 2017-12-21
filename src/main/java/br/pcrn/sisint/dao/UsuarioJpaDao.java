@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by samue on 08/09/2017.
@@ -27,15 +28,10 @@ public class UsuarioJpaDao extends EntidadeGenericaJpaDao<Usuario> implements Us
     }
 
     @Override
-    public Usuario buscarPorLogin(String login) {
-        try {
+    public Optional<Usuario> buscarPorLogin(String login) {
             Query query = this.manager.createQuery("SELECT p from Usuario p where p.login = :login");
             query.setParameter("login",login);
-            return (Usuario) query.getSingleResult();
-
-        }catch (NoResultException e){
-            return null;
-        }
-
+            query.setMaxResults(1);
+            return query.setMaxResults(1).getResultList().stream().findFirst();
     }
 }

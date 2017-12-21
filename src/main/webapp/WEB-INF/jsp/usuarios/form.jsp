@@ -10,11 +10,13 @@
 <%@ taglib prefix="tags" uri="tagSisInt" %>
 <%@ taglib prefix="td" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<tags:teste>
+<tags:layout>
     <jsp:attribute name="cabecalho">
     </jsp:attribute>
     <jsp:attribute name="rodape">
-
+        <script>
+            $('#form-cadastro-usuario').validator();
+        </script>
     </jsp:attribute>
 
     <jsp:body>
@@ -23,18 +25,20 @@
                 <div class="panel-title">Cadastrar usuários</div>
             </div>
             <div class="panel-body" style="padding-top: 0px;">
-                <form class="form-horizontal" action="${linkTo[UsuariosController].salvar}" method="post">
+                <form id="form-cadastro-usuario" class="form-horizontal" action="${linkTo[UsuariosController].salvar}" method="post">
                     <input type="hidden" name="usuario.id" value="${usuario.id}">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Nome</label>
                         <div class="col-sm-10">
-                            <input class="form-control" id="nome-usuario" name="usuario.nome" type="text" value="${usuario.nome}">
+                            <input class="form-control" minlength="3" id="nome-usuario" name="usuario.nome" type="text" value="${usuario.nome}">
+                            <div class="help-block with-errors"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Login</label>
                         <div class="col-sm-10">
-                            <input class="form-control" id="login-usuario" name="usuario.login" type="text" value="${usuario.login}">
+                            <input class="form-control" minlength="4" id="login-usuario" name="usuario.login" type="text" value="${usuario.login}">
+                            <div class="help-block with-errors"></div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -51,13 +55,15 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Telefone</label>
                         <div class="col-sm-10">
-                            <input class="form-control" id="telefone-usuario" name="usuario.telefone" type="text" value="${usuario.telefone}">
+                            <input data-error="Before you wreck yourself" data-pattern-error="Formato esperado: (DD) XXXX-XXXX" class="form-control" id="telefone-usuario" name="usuario.telefone" pattern="\([0-9]{2}\) [0-9]{4,6}-[0-9]{3,4}$" type="tel" value="${usuario.telefone}">
+                            <div class="help-block with-errors"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Email</label>
                         <div class="col-sm-10">
-                            <input class="form-control" id="email-usuario" name="usuario.email" type="text" value="${usuario.email}">
+                            <input class="form-control" id="email-usuario" name="usuario.email" type="email" value="${usuario.email}">
+                            <div class="help-block with-errors"></div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -73,4 +79,4 @@
 
         </div>
     </jsp:body>
-</tags:teste>
+</tags:layout>

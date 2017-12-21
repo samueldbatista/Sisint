@@ -10,7 +10,7 @@
 <%@ taglib prefix="tags" uri="tagSisInt" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<tags:teste>
+<tags:layout>
 
     <jsp:attribute name="cabecalho">
         <link href="${ctx}/resources/plugins/dataPicker/dataPicker.css" rel="stylesheet"/>
@@ -32,9 +32,10 @@
     </jsp:attribute>
 
     <jsp:attribute name="rodape">
-        <script src="${ctx}/resources/js/ConverterObjetoParaVRaptor.js"></script>
-        <script src="${ctx}/resources/plugins/jquerySteps/jquery.steps.min.js"></script>
         <script src="${ctx}/resources/js/servicos/tarefas.js"></script>
+        <script>
+            $('#form-servico-tarefa').validator();
+        </script>
     </jsp:attribute>
 
     <jsp:body>
@@ -58,21 +59,21 @@
                             <input id="servico-dataAbertura" type="hidden" name="servico.dataAbertura" value="${servico.dataAbertura}"/>
                             <div class="form-group col-md-6">
                                 <label for="titulo-servico">Título</label>
-                                <input type="text" class="form-control input-sm" id="titulo-servico" required="true"
+                                <input type="text" minlength="5" class="form-control input-sm" id="titulo-servico" required="true"
                                        value="${servico.titulo}"
                                        placeholder="Titulo do serviço"
                                        name="servico.titulo"/>
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="nomeSolicitante-servico">Nome do solicitante</label>
-                                <input type="text" class="form-control input-sm" id="nomeSolicitante-servico"
+                                <input type="text" minlength="3" class="form-control input-sm" id="nomeSolicitante-servico"
                                        required="true"
                                        value="${servico.nomeSolicitante}"
                                        placeholder="Nome do solicitante" name="servico.nomeSolicitante"/>
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="setor-servico">Setor solicitante</label>
-                                <select class="form-control input-sm" id="setor-servico" name="servico.setor.id">
+                                <select class="form-control input-sm" required id="setor-servico" name="servico.setor.id">
                                     <option value=""></option>
                                     <c:forEach items="${setores}" var="setor">
                                         <c:if test="${setor.valor == servico.setor.id}">
@@ -91,7 +92,7 @@
                                 <input type="text" class="form-control datePicker" id="data-fechamento-servico"
                                        required="true"
                                        value="${servico.dataFechamento}"
-                                       placeholder="Data de finalização" name="servico.dataFechamento"/>
+                                       placeholder="Data de finalização" readonly="readonly" name="servico.dataFechamento"/>
                             </div>
 
                             <div class="form-group col-md-3">
@@ -175,7 +176,7 @@
                                                    id="data-fechamento-tarefa"
                                                    required="true"
                                                    value="${tarefa.dataFechamento}"
-                                                   placeholder="Data de finalização" name="tarefa.dataFechamento"/>
+                                                   placeholder="Data de finalização" readonly="readonly" name="tarefa.dataFechamento"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -243,4 +244,4 @@
 
         </div>
     </jsp:body>
-</tags:teste>
+</tags:layout>

@@ -20,7 +20,7 @@ public class UsuarioValidador {
      * @return boolean
      */
     public boolean verificarSenha(Usuario usuario){
-        Usuario user = usuarioDao.buscarPorLogin(usuario.getLogin());
+        Usuario user = usuarioDao.buscarPorLogin(usuario.getLogin()).get();
         if(user.getSenha() == usuario.getSenha()){
             return true;
         }
@@ -33,7 +33,7 @@ public class UsuarioValidador {
      * @return boolean
      */
     public boolean verificaUsuarioCadastrado(Usuario usuario){
-        Usuario user = usuarioDao.buscarPorLogin(usuario.getLogin());
+        Usuario user = usuarioDao.buscarPorLogin(usuario.getLogin()).get();
         if(user != null){
             return true;
         }
