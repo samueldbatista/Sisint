@@ -1,14 +1,12 @@
 package br.pcrn.sisint.dao;
 
-import br.pcrn.sisint.dominio.LogServico;
-import br.pcrn.sisint.dominio.Servico;
-import br.pcrn.sisint.dominio.StatusServico;
-import br.pcrn.sisint.dominio.Tarefa;
+import br.pcrn.sisint.dominio.*;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +15,11 @@ import java.util.stream.Collectors;
  * Created by samue on 17/09/2017.
  */
 public class ServicoJpaDao extends EntidadeGenericaJpaDao<Servico> implements ServicoDao {
+    @Inject
+    private TarefaDao tarefaDao;
+
+    @Inject
+    UsuarioLogado usuarioLogado;
 
     @Deprecated
     public ServicoJpaDao() {
@@ -31,7 +34,40 @@ public class ServicoJpaDao extends EntidadeGenericaJpaDao<Servico> implements Se
     @Override
     public Servico salvar(Servico servico) {
         referenciarLogsTarefas(servico);
+        removerTarefas(servico);
         return super.salvar(servico);
+    }
+
+    private void removerTarefas(Servico servico){
+        boolean deletar = true;
+        if(servico.getId() != null) {
+            Servico servicoBanco = buscarPorId(servico.getId());
+            if(servicoBanco.getTarefas() != null ) {
+                for (Tarefa tarefa: servicoBanco.getTarefas()) {
+                    if(servico.getTarefas() != null){
+                    for (Tarefa tarefaAux: servico.getTarefas()) {
+                        if(tarefa.getId() == tarefaAux.getId()) {
+                            deletar = false;
+                        }
+                    }
+                    } else {
+                        deletar = true;
+                    }
+                    if(deletar == true) {
+                        LogServico logServico = new LogServico();
+
+                        logServico.setUsuario(usuarioLogado.getUsuario());
+                        logServico.setServico(servico);
+                        logServico.setDataAlteracao(LocalDateTime.now());
+                        logServico.setLog("O usuário "+usuarioLogado.getUsuario().getNome()+" deletou a tarefa " + tarefa.getCodigoTarefa() + ".");
+                        servico.getLogServicos().add(logServico);
+//                        manager.refresh(servicoBanco);
+                        tarefaDao.remover(tarefa);
+                    }
+                    deletar = true;
+                }
+            }
+        }
     }
 
     @Override
@@ -99,6 +135,11 @@ public class ServicoJpaDao extends EntidadeGenericaJpaDao<Servico> implements Se
 
         query.setParameter("id", id);
         return (Servico) query.getSingleResult();
+    }
+
+    public void salvarLogServico(LogServico logServico) {
+        Servico servico = buscarPorId(logServico.getServico().getId());
+        servico.getLogServicos().add(logServico);
     }
 
 }

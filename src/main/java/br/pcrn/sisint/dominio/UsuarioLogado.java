@@ -2,8 +2,6 @@ package br.pcrn.sisint.dominio;
 
 
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Specializes;
-import java.io.Serializable;
 
 
 @SessionScoped

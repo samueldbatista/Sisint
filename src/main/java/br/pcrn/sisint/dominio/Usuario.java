@@ -1,10 +1,7 @@
 package br.pcrn.sisint.dominio;
 
-import br.pcrn.sisint.util.Criptografia;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 /**
@@ -35,6 +32,9 @@ public class Usuario extends Entidade{
     private TipoUsuario tipoUsuario;
 
     private boolean deletado;
+
+    @Transient
+    private String primeiroNome;
 
     public Long getId() {
         return id;
@@ -105,6 +105,12 @@ public class Usuario extends Entidade{
 
     public void setDeletado(boolean deletado) {
         this.deletado = deletado;
+    }
+
+    public String getPrimeiroNome() {
+        String name[] = nome.split(" ");
+        primeiroNome = name[0];
+        return primeiroNome;
     }
 
 }

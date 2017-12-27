@@ -9,6 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tags" uri="tagSisInt" %>
 <%@ taglib prefix="td" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <tags:layout>
     <jsp:attribute name="cabecalho">
@@ -25,21 +26,21 @@
                 <form id="formTarefa" class="form-horizontal" action="${linkTo[SetorController].salvar}" method="post">
                     <input type="hidden" name="setor.id" value="${setor.id}">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Nome:</label>
+                        <label class="col-sm-2 control-label">Nome: </label>
                         <div class="col-sm-10">
                             <input class="form-control" minlength="4" name="setor.nome" type="text" required value="${setor.nome}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Telefone 1:</label>
+                        <label class="col-sm-2 control-label">Senha: </label>
                         <div class="col-sm-10">
-                            <input class="form-control" name="setor.telefone1" type="text" value="${setor.telefone1}">
+                            <input class="form-control" name="setor.senha" type="text" value="${setor.senha}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Telefone 2:</label>
+                        <label class="col-sm-2 control-label">Telefone: </label>
                         <div class="col-sm-10">
-                            <input class="form-control" name="setor.telefone2" type="text" value="${setor.telefone2}">
+                            <input class="form-control" name="setor.telefone" type="text" value="${setor.telefone}">
                         </div>
                     </div>
                     <div class="form-group">

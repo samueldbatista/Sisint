@@ -32,7 +32,7 @@
 
     <body style="background-color: rgba(232, 232, 232, 0.71)">
     <input id="ctx" type="hidden" value="${linkTo[ServicosController].salvar}"/>
-    <nav class="navbar" style="background-color: white; padding: 5px; box-shadow: 2px 1px #ddd; border-radius: 0px;">
+    <nav class="navbar"  style="background-color: white; padding: 5px; box-shadow: 2px 1px #ddd; border-radius: 0px;">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -79,12 +79,22 @@
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Usuários <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="${linkTo[UsuariosController].form}">Cadastrar</a></li>
+                            <li class="divider"></li>
+                            <li><a href="${linkTo[UsuariosController].lista}">Usuários</a></li>
                         </ul>
                     </li>
                     </c:if>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="${linkTo[LoginController].logout}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-sort-desc" aria-hidden="true"><c:out value=""/></i> ${usuarioLogado.usuario.primeiroNome}</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="${linkTo[PerfilController].form}?id=${usuarioLogado.usuario.id}">Perfil</a></li>
+                            <li class="divider"></li>
+                            <li><a href="${linkTo[LoginController].logout}">Logout</a></li>
+                        </ul>
+                    </li>
+                    <!--<li><a href="${linkTo[LoginController].logout}"><i class="fa fa-sort-desc" aria-hidden="true"><c:out value=""/></i> ${usuarioLogado.usuario.primeiroNome}</a></li>-->
                 </ul>
             </div>
         </div>

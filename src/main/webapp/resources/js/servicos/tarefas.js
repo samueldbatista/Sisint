@@ -2,8 +2,8 @@
  * Created by samuel on 15/09/2017.
  */
 //Variável global salvar tarefas
-var listaTarefas = [];
-$(function () {
+
+$(document).ready(function () {
     var ctx = "";
 
     var idServico = $('#servico-id').val();
@@ -14,7 +14,8 @@ $(function () {
     var $btnsEditar;
     var editando = false;
     var posicaoEditavel;
-
+    var $btnsRemover = $('.remover-tarefa');
+    var listaTarefas = [];
     var id;
     var titulo;
     var tecnico;
@@ -33,7 +34,6 @@ $(function () {
         limparInputs();
     });
 
-    console.log("Id de serviço: " + idServico);
     var url = ctx + "/listaTarefas?id=" + idServico;
     var urlLogs = ctx + "/listaLogs?id=" + idServico;
     var $containerInputsTarefa = $('#container-inputs-tarefa');
@@ -77,7 +77,9 @@ $(function () {
         editando = false;
 
         $btnsEditar = $(".editar-tarefa");
+        $btnsRemover = $(".remover-tarefa");
         atribuirListennerBtnEdicao($btnsEditar);
+        atribuirListennerBtnRemocao($btnsRemover);
     });
 
     requisicaoTarefas();
@@ -89,7 +91,6 @@ $(function () {
             url: url
         }).done(function (data) {
             listaTarefas.concat(criarTarefasEInserirNaLista(data));
-            console.log(listaTarefas);
             var cont = 0;
             listaTarefas.forEach(function (tarefa) {
                 criarInputsHidden($form, tarefa, cont);
@@ -108,7 +109,6 @@ $(function () {
 
     function criarTarefasEInserirNaLista(data) {
         data.forEach(function (dado) {
-            console.log(dado.id);
             var tarefa = {
                 id: (dado.id),
                 titulo: dado.titulo,
@@ -124,7 +124,6 @@ $(function () {
                 dataAbertura: dado.dataAbertura,
                 pendente: dado.pendente
             };
-            console.log(tarefa);
             listaTarefas.push(tarefa)
         });
         return listaTarefas;
@@ -176,13 +175,13 @@ $(function () {
         var classe = criarLabelStatus(tarefa.statusTarefa.valor);
         var pendencia = tarefa.pendente;
         var possuiPendencia ="";
-        console.log(pendencia);
         if(pendencia === true || pendencia === 'true'){
             possuiPendencia = "<span class='list-group-item-text label label-danger'>Possui Pendencia</span>";
         }
         $tarefasContainer.prepend(
             "<div id='list-tarefa' class='list-group-item' >"+
-            "<a id='editar-tarefa' class='editar-tarefa' href='#myModal' data-toggle='modal' posicao='"+ i +"' style='float: right;'><i class='fa fa-pencil-square'></i></a>" +
+            "<a id='editar-tarefa' class='editar-tarefa' href='#myModal' data-toggle='modal' posicao='"+ i +"' style='float: right;'><i class='fa fa-pencil-square-o'></i></a>" +
+            "<a id='remover-tarefa' class='remover-tarefa' href='#' posicao='"+ i +"' style='margin-right: 4px; float: right;'><i class='fa fa-trash-o'></i></a>" +
             "<h4 class='list-group-item-heading'>Título da tarefa: "+tarefa.titulo+"</h4>"+
             "<span class='list-group-item-text' style='size: 14px; margin-right: 16px;'>Abertura: "+moment(tarefa.dataFechamento, "YYYY-MM-DD").format("DD/MM/YYYY")+"</span>"+
             "<span class='list-group-item-text' style='size: 14px; margin-right: 16px;'>Previsão: "+moment(tarefa.dataFechamento, "YYYY-MM-DD").format("DD/MM/YYYY")+"</span>"+
@@ -191,6 +190,8 @@ $(function () {
             "<p class='list-group-item-text'>Descrição: "+tarefa.descricao+"</p>"+
             "</div>"
         );
+        $btnsRemover = $('.remover-tarefa');
+        atribuirListennerBtnRemocao($btnsRemover);
     }
 
     function criarLabelStatus(status) {
@@ -201,7 +202,7 @@ $(function () {
         } else if (status === 'EM_ESPERA') {
             return 'label-warning'
         } else if (status === 'CANCELADO'){
-          return 'label-danger'
+            return 'label-danger'
         }
     }
 
@@ -216,11 +217,33 @@ $(function () {
         });
     }
 
+    function remover(posicao) {
+        listaTarefas.splice(posicao,1);
+        $tarefasContainer.empty();
+        $containerInputsTarefa.empty();
+        var cont = 0;
+        listaTarefas.forEach(function (tarefa) {
+            criarInputsHidden($form, tarefa, cont);
+            cont = cont + 1;
+        });
+    }
+
+
+    function atribuirListennerBtnRemocao($btnRemocao) {
+        $btnRemocao.off('click');
+        $btnRemocao.each(function () {
+            $(this).click(function () {
+                var posicao = $(this).attr('posicao');
+                posicaoEditavel = posicao;
+                remover(posicao);
+            });
+        });
+    }
+
     function edicao(posicao) {
         carregarInputs();
         editando = true;
         tarefa = listaTarefas[posicao];
-        console.log(tarefa.titulo);
         id.val(tarefa.id);
         titulo.val(tarefa.titulo);
         tecnico.val(tarefa.tecnico.id);

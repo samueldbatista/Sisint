@@ -10,7 +10,7 @@
 <%@ taglib prefix="tags" uri="tagSisInt" %>
 <%@ taglib prefix="td" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
-
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <tags:layout>
     <jsp:attribute name="cabecalho">

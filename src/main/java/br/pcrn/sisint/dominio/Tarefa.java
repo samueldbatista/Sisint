@@ -34,6 +34,8 @@ public class Tarefa extends Entidade{
 
     private boolean pendente;
 
+    private boolean deletado;
+
     public Long getId() {
         return id;
     }
@@ -114,5 +116,11 @@ public class Tarefa extends Entidade{
         this.dataAbertura = dataAbertura;
     }
 
+    public boolean isDeletado() {
+        return deletado;
+    }
 
+    public void setDeletado(boolean deletado) {
+        this.deletado = deletado;
+    }
 }

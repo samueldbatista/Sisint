@@ -3,7 +3,7 @@
 <%@ taglib prefix="tags" uri="tagSisInt" %>
 <%@ taglib prefix="td" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
-
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <tags:layout>
     <jsp:attribute name="cabecalho">
@@ -30,14 +30,15 @@
                             <th>Login</th>
                             <th>Email</th>
                             <th>Telefone</th>
+                            <th>Ações</th>
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach items="${usuarios}" var="usuario">
                             <tr>
                                 <td>${usuario.id}</td>
-                                <td><span class="label">${usuario.nome}</span></td>
-                                <td class="date-column">${usuario.login}</td>
+                                <td>${usuario.nome}</td>
+                                <td>${usuario.login}</td>
                                 <td>${usuario.email}</td>
                                 <td>${usuario.telefone}</td>
                                 <td><a href="#"><i class="fa fa-eye" aria-hidden="false"></i></a>

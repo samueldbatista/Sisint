@@ -62,19 +62,21 @@ public class ServicosController extends ControladorSisInt<Servico> {
     @Transacional
     public void salvar(Servico servico) {
         try {
+
+            //Atribui data de abertura de chamado e caso não haja um técnico reponsável, torna nula a variável de usuário
         if(servico.getId() == null){
             servico.setDataAbertura(LocalDate.now());
             if(servico.getTecnico().getId() == null) {
                 servico.setTecnico(null);
             }
         }
-
+        // Atribui Status do serviço
         if(servico.getTecnico() == null) {
             servico.setStatusServico(StatusServico.EM_ESPERA);
         } else {
             servico.setStatusServico(StatusServico.EM_EXECUCAO);
         }
-
+        //Gera o código de serviço
         if(servico.getCodigoServico() == null) {
             servico.setCodigoServico(servicosNegocio.gerarCodigoServico());
             if(servico.getTarefas() != null) {
@@ -87,6 +89,7 @@ public class ServicosController extends ControladorSisInt<Servico> {
                 servicosNegocio.gerarCodigoTarefas(servico.getCodigoServico(), servico.getTarefas());
             }
         }
+        //Gera Log do serviço
         servicosNegocio.gerarLog(servico);
         if(servico.getTarefas() != null) {
             if(servicosNegocio.verificarConclusaoServico(servico.getTarefas())) {
@@ -205,6 +208,7 @@ public class ServicosController extends ControladorSisInt<Servico> {
     public void remover(Long id) {
         Servico servico = this.dao.buscarPorId(id);
         dao.remover(servico);
+//        servico.setDeletado(true);
         resultado.redirectTo(InicioController.class).index();
     }
 }

@@ -3,6 +3,8 @@ package br.pcrn.sisint.controller;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.observer.download.Download;
+import br.com.caelum.vraptor.observer.download.FileDownload;
 import br.com.caelum.vraptor.validator.Message;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
@@ -15,6 +17,7 @@ import br.pcrn.sisint.dominio.StatusServico;
 import br.pcrn.sisint.dominio.TipoUsuario;
 
 import javax.inject.Inject;
+import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,19 +47,11 @@ public class InicioController extends Controlador {
 
     @Path("")
     public void index(){
-        Message message;
-//        try {
             resultado.include("totalServicos",servicoDao.contarTotalServicos());
         resultado.include("servicosAbertos",servicoDao.contarServicosStatus(StatusServico.EM_ESPERA));
         resultado.include("servicosExecucao",servicoDao.contarServicosStatus(StatusServico.EM_EXECUCAO));
         resultado.include("totalTarefas",tarefaDao.contarTotalTarefas());
-        message = new SimpleMessage("success","mensagem.salvar.sucesso");
-        this.resultado.include("mensagem",message);
-//        } catch (Exception e) {
-//            message = new SimpleMessage("error","mensagem.salvar.error");
-//            resultado.include("mensagem",message);
-//        }
-//        validator.onErrorRedirectTo(this).index();
-//        this.resultado.include(validator.add(new I18nMessage("success","Carregado com sucesso")));
     }
+
+
 }

@@ -9,6 +9,7 @@ import br.pcrn.sisint.dao.*;
 import br.pcrn.sisint.dominio.StatusTarefa;
 import br.pcrn.sisint.dominio.Tarefa;
 import br.pcrn.sisint.dominio.Usuario;
+import br.pcrn.sisint.negocio.TarefaNegocio;
 import br.pcrn.sisint.util.OpcaoSelect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,9 @@ public class TarefasController extends ControladorSisInt<Tarefa> {
 
     @Inject
     private UsuarioDao usuarioDao;
+
+    @Inject
+    private TarefaNegocio tarefaNegocio;
 
     @Deprecated
     public TarefasController() {
@@ -53,19 +57,22 @@ public class TarefasController extends ControladorSisInt<Tarefa> {
 
     @Transacional
     public void salvar(Tarefa tarefa) {
-        Message message;
-        try{
-            message = new SimpleMessage("success","mensagem.salvar.sucesso");
-            tarefaDao.salvar(tarefa);
-            tarefaDao.buscarPorId(68l);
-            resultado.include("mensagem", message);
-            resultado.of(InicioController.class).index();
-        } catch (Exception e) {
-            LOGGER.info("Erro ao tenta salvar a tarefa.");
-            message = new SimpleMessage("error","mensagem.salvar.error");
-            resultado.include("mensagem",message);
-            resultado.of(this).form();
-        }
+//        Message message;
+//        try{
+//            message = new SimpleMessage("success","mensagem.salvar.sucesso");
+//            tarefaDao.salvar(tarefa);
+//            tarefaDao.buscarPorId(68l);
+//            resultado.include("mensagem", message);
+//            resultado.redirectTo(InicioController.class).index();
+//        } catch (Exception e) {
+//            LOGGER.info("Erro ao tenta salvar a tarefa.");
+//            message = new SimpleMessage("error","mensagem.salvar.error");
+//            resultado.include("mensagem",message);
+//            resultado.of(this).form();
+//        }
+        tarefaNegocio.salvar(tarefa);
+        resultado.include("mensagem",new SimpleMessage("success","mensagem.salvar.sucesso"));
+        resultado.redirectTo(this).lista();
     }
     public void editar(Long id) {
         Tarefa tarefa = tarefaDao.buscarPorId(id);
@@ -75,8 +82,8 @@ public class TarefasController extends ControladorSisInt<Tarefa> {
         resultado.of(this).form();
     }
 
-    public void remover() {
-
+    public void remover(Long id) {
+        Tarefa tarefa = tarefaDao.buscarPorId(id);
     }
 
     public void lista(){

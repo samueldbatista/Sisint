@@ -3,6 +3,7 @@ package br.pcrn.sisint.controller;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.pcrn.sisint.anotacoes.Seguranca;
 import br.pcrn.sisint.anotacoes.Transacional;
 import br.pcrn.sisint.dao.UsuarioDao;
@@ -46,15 +47,18 @@ public class UsuariosController extends ControladorSisInt<Usuario> {
         usuario.setDeletado(false);
         usuario.setSenha(criptografarSenha(usuario.getSenha()));
         this.usuarioDao.salvar(usuario);
-        resultado.of(this).form();
+        resultado.include("mensagem", new SimpleMessage("success","mensagem.salvar.sucesso"));
+        resultado.redirectTo(UsuariosController.class).lista();
     }
 
     public void lista() {
         resultado.include("usuarios", usuarioDao.listar());
     }
 
-    public void editar() {
+    public void editar(Long id) {
+        Usuario usuario = usuarioDao.buscarPorId(id);
         this.resultado.include("tipoUsuario", OpcaoSelect.toListaOpcoes(TipoUsuario.values()));
+        this.resultado.include("usuario", usuario);
         resultado.of(this).form();
     }
 

@@ -1,5 +1,6 @@
 package br.pcrn.sisint.dao;
 
+import br.pcrn.sisint.dominio.LogServico;
 import br.pcrn.sisint.dominio.Servico;
 import br.pcrn.sisint.dominio.StatusServico;
 
@@ -19,4 +20,5 @@ public interface ServicoDao extends EntidadeGenericaDao<Servico> {
     public List<Servico> listarMeusServicos(Long id);
     public List<Servico> listarServicosEmAberto();
     Servico BuscarPorId(Long id);
+    void salvarLogServico(LogServico logServico);
 }
