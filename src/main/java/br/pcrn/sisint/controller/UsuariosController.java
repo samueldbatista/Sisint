@@ -51,6 +51,14 @@ public class UsuariosController extends ControladorSisInt<Usuario> {
         resultado.redirectTo(UsuariosController.class).lista();
     }
 
+    @Transacional
+    public void atualizar(Usuario usuario){
+        usuario.setDataCadastro(LocalDate.now());
+        this.usuarioDao.salvar(usuario);
+        resultado.include("mensagem", new SimpleMessage("success","mensagem.salvar.sucesso"));
+        resultado.redirectTo(UsuariosController.class).lista();
+    }
+
     public void lista() {
         resultado.include("usuarios", usuarioDao.listar());
     }
@@ -62,8 +70,24 @@ public class UsuariosController extends ControladorSisInt<Usuario> {
         resultado.of(this).form();
     }
 
+    @Transacional
+    public void trocarSenha(Usuario usuario) {
+        Usuario usuarioBanco = usuarioDao.buscarPorId(usuario.getId());
+        if(Criptografia.criptografar(usuario.getSenha()).equals(usuarioBanco.getSenha()) && usuario.getNovaSenha().equals(usuario.getConfirmaSenha())) {
+            usuarioBanco.setSenha(Criptografia.criptografar(usuario.getNovaSenha()));
+            resultado.include("mensagem", new SimpleMessage("success","mensagem.salvar.sucesso"));
+            resultado.redirectTo(InicioController.class).index();
+        } else {
+            resultado.include("mensagem", new SimpleMessage("error","mensagem.dadoIncorreto"));
+            resultado.redirectTo(PerfilController.class).form(usuario.getId());
+        }
+
+    }
+
     private String criptografarSenha(String senha) {
         return Criptografia.criptografar(senha);
     }
+
+
 
 }

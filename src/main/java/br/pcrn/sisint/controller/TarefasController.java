@@ -82,12 +82,16 @@ public class TarefasController extends ControladorSisInt<Tarefa> {
         resultado.of(this).form();
     }
 
+    @Transacional
     public void remover(Long id) {
         Tarefa tarefa = tarefaDao.buscarPorId(id);
+        tarefa.setDeletado(true);
+        resultado.include("mensagem",new SimpleMessage("success","mensagem.salvar.sucesso"));
+        resultado.redirectTo(this).tarefasAbertas();
     }
 
     public void lista(){
-        this.resultado.include("tarefas", tarefaDao.todos());
+        this.resultado.include("tarefas", tarefaDao.listar());
 
     }
 

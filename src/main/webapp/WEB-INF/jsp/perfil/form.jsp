@@ -26,19 +26,22 @@
                 <div class="panel-title">Meu perfil</div>
             </div>
             <div class="panel-body" style="padding-top: 0px;">
-                <form id="form-cadastro-usuario" class="form-horizontal" action="${linkTo[UsuariosController].salvar}" method="post">
-1                    <input type="hidden" name="usuario.tipoUsuario" value="${usuario.tipoUsuario}">
+                <form id="form-cadastro-usuario" class="form-horizontal" action="${linkTo[UsuariosController].atualizar}" method="post">
+                    <input type="hidden" name="usuario.id" value="${usuario.id}">
+                    <input type="hidden" name="usuario.tipoUsuario" value="${usuario.tipoUsuario}">
+                    <input type="hidden" name="usuario.senha" value="${usuario.senha}">
+                    <%--<input type="hidden" name="usuario.dataCadastro" value="${usuario.tipoUsuario}">--%>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Nome</label>
                         <div class="col-sm-10">
-                            <input class="form-control" minlength="3" disabled id="nome-usuario" name="usuario.nome" type="text" value="${usuario.nome}">
+                            <input class="form-control" readonly minlength="3" id="nome-usuario" name="usuario.nome" type="text" value="${usuario.nome}">
                             <div class="help-block with-errors"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Login</label>
                         <div class="col-sm-10">
-                            <input class="form-control" disabled minlength="4" id="login-usuario" name="usuario.login" type="text" value="${usuario.login}">
+                            <input class="form-control" readonly minlength="4" id="login-usuario" name="usuario.login" type="text" value="${usuario.login}">
                             <div class="help-block with-errors"></div>
                         </div>
                     </div>
@@ -84,18 +87,36 @@
                     <div class="modal-dialog">
 
                         <!-- Modal content-->
+                        <form method="post" action="${linkTo[UsuariosController].trocarSenha}">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title">Modal Header</h4>
                             </div>
                             <div class="modal-body">
-                                <p>Some text in the modal.</p>
+
+                                    <input type="hidden" name="usuario.id" value="${usuario.id}">
+                                    <div class="form-group">
+                                        <label for="senha-antiga">Senha antiga: </label>
+                                            <input class="form-control" id="senha-antiga" name="usuario.senha" type="password">
+                                            <div class="help-block with-errors"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="-nova-senha">Senha nova: </label>
+                                            <input class="form-control" id="-nova-senha" name="usuario.novaSenha" type="password">
+                                            <div class="help-block with-errors"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirmar-senha">Confirmar senha nova: </label>
+                                            <input class="form-control" id="confirmar-senha" name="usuario.confirmaSenha" type="password">
+                                            <div class="help-block with-errors"></div>
+                                    </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-info">Salvar</button>
                             </div>
                         </div>
+                        </form>
 
                     </div>
                 </div>

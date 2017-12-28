@@ -91,7 +91,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="${linkTo[PerfilController].form}?id=${usuarioLogado.usuario.id}">Perfil</a></li>
                             <li class="divider"></li>
-                            <li><a href="${linkTo[LoginController].logout}">Logout</a></li>
+                            <li><a href="${linkTo[LoginController].logout}">Sair</a></li>
                         </ul>
                     </li>
                     <!--<li><a href="${linkTo[LoginController].logout}"><i class="fa fa-sort-desc" aria-hidden="true"><c:out value=""/></i> ${usuarioLogado.usuario.primeiroNome}</a></li>-->

@@ -62,7 +62,7 @@ public class ServicoJpaDao extends EntidadeGenericaJpaDao<Servico> implements Se
                         logServico.setLog("O usuário "+usuarioLogado.getUsuario().getNome()+" deletou a tarefa " + tarefa.getCodigoTarefa() + ".");
                         servico.getLogServicos().add(logServico);
 //                        manager.refresh(servicoBanco);
-                        tarefaDao.remover(tarefa);
+                        tarefa.setDeletado(true);
                     }
                     deletar = true;
                 }

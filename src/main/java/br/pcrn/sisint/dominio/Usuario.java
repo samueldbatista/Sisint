@@ -36,6 +36,12 @@ public class Usuario extends Entidade{
     @Transient
     private String primeiroNome;
 
+    @Transient
+    private String novaSenha;
+
+    @Transient
+    private String confirmaSenha;
+
     public Long getId() {
         return id;
     }
@@ -113,4 +119,23 @@ public class Usuario extends Entidade{
         return primeiroNome;
     }
 
+    public void setPrimeiroNome(String primeiroNome) {
+        this.primeiroNome = primeiroNome;
+    }
+
+    public String getNovaSenha() {
+        return novaSenha;
+    }
+
+    public void setNovaSenha(String novaSenha) {
+        this.novaSenha = novaSenha;
+    }
+
+    public String getConfirmaSenha() {
+        return confirmaSenha;
+    }
+
+    public void setConfirmaSenha(String confirmaSenha) {
+        this.confirmaSenha = confirmaSenha;
+    }
 }

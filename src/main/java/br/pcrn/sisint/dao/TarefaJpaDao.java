@@ -23,7 +23,7 @@ public class TarefaJpaDao extends EntidadeGenericaJpaDao<Tarefa> implements Tare
 
     @Override
     public List<Tarefa> tarefasEmAberto() {
-        Query query = this.manager.createQuery("SELECT p FROM Tarefa p WHERE p.statusTarefa = :status");
+        Query query = this.manager.createQuery("SELECT p FROM Tarefa p WHERE p.statusTarefa = :status AND p.deletado = false");
         query.setParameter("status", StatusTarefa.EM_ESPERA);
         List<Tarefa> tarefas = query.getResultList();
 
@@ -32,7 +32,7 @@ public class TarefaJpaDao extends EntidadeGenericaJpaDao<Tarefa> implements Tare
 
     @Override
     public List<Tarefa> minhasTarefas() {
-        Query query = this.manager.createQuery("SELECT p FROM Tarefa p WHERE p.tecnico.id = :usuario");
+        Query query = this.manager.createQuery("SELECT p FROM Tarefa p WHERE p.tecnico.id = :usuario AND p.deletado = false");
         query.setParameter("usuario", usuarioLogado.getUsuario().getId());
         List<Tarefa> tarefas = query.getResultList();
         return tarefas;
@@ -40,7 +40,7 @@ public class TarefaJpaDao extends EntidadeGenericaJpaDao<Tarefa> implements Tare
 
     @Override
     public Long contarTotalTarefas() {
-        Query query = manager.createQuery("select count(t) from Tarefa t");
+        Query query = manager.createQuery("select count(t) from Tarefa t WHERE t.deletado = false");
         return (Long) query.getSingleResult();
     }
 

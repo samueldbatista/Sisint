@@ -36,7 +36,7 @@ public class ServicosController extends ControladorSisInt<Servico> {
      * @deprecated CDI eyes only
      */
     protected ServicosController() {
-        this(null,null, null, null, null,null);
+        this(null, null, null, null, null, null);
     }
 
     @Inject
@@ -45,7 +45,7 @@ public class ServicosController extends ControladorSisInt<Servico> {
         super(resultado);
         this.dao = dao;
         this.servicoDao = servicoDao;
-        this.validador =  validador;
+        this.validador = validador;
         this.usuarioDao = usuarioDao;
         this.servicosNegocio = servicosNegocio;
     }
@@ -64,48 +64,48 @@ public class ServicosController extends ControladorSisInt<Servico> {
         try {
 
             //Atribui data de abertura de chamado e caso não haja um técnico reponsável, torna nula a variável de usuário
-        if(servico.getId() == null){
-            servico.setDataAbertura(LocalDate.now());
-            if(servico.getTecnico().getId() == null) {
-                servico.setTecnico(null);
+            if (servico.getId() == null) {
+                servico.setDataAbertura(LocalDate.now());
+                if (servico.getTecnico().getId() == null) {
+                    servico.setTecnico(null);
+                }
             }
-        }
-        // Atribui Status do serviço
-        if(servico.getTecnico() == null) {
-            servico.setStatusServico(StatusServico.EM_ESPERA);
-        } else {
-            servico.setStatusServico(StatusServico.EM_EXECUCAO);
-        }
-        //Gera o código de serviço
-        if(servico.getCodigoServico() == null) {
-            servico.setCodigoServico(servicosNegocio.gerarCodigoServico());
-            if(servico.getTarefas() != null) {
-                if(!servico.getTarefas().isEmpty()) {
+            // Atribui Status do serviço
+            if (servico.getTecnico() == null) {
+                servico.setStatusServico(StatusServico.EM_ESPERA);
+            } else {
+                servico.setStatusServico(StatusServico.EM_EXECUCAO);
+            }
+            //Gera o código de serviço
+            if (servico.getCodigoServico() == null) {
+                servico.setCodigoServico(servicosNegocio.gerarCodigoServico());
+                if (servico.getTarefas() != null) {
+                    if (!servico.getTarefas().isEmpty()) {
+                        servicosNegocio.gerarCodigoTarefas(servico.getCodigoServico(), servico.getTarefas());
+                    }
+                }
+            } else {
+                if (servico.getTarefas() != null) {
                     servicosNegocio.gerarCodigoTarefas(servico.getCodigoServico(), servico.getTarefas());
                 }
             }
-        } else {
-            if(servico.getTarefas() != null) {
-                servicosNegocio.gerarCodigoTarefas(servico.getCodigoServico(), servico.getTarefas());
+            //Gera Log do serviço
+            servicosNegocio.gerarLog(servico);
+            if (servico.getTarefas() != null) {
+                if (servicosNegocio.verificarConclusaoServico(servico.getTarefas())) {
+                    servico.setStatusServico(StatusServico.CONCLUIDO);
+                    LogServico logServico = new LogServico();
+                    logServico.setLog("Servico " + servico.getCodigoServico() + " foi concluído.");
+                    logServico.setServico(servico);
+                    logServico.setDataAlteracao(LocalDateTime.now());
+                    logServico.setUsuario(usuarioLogado.getUsuario());
+                    servico.getLogServicos().add(logServico);
+                }
             }
-        }
-        //Gera Log do serviço
-        servicosNegocio.gerarLog(servico);
-        if(servico.getTarefas() != null) {
-            if(servicosNegocio.verificarConclusaoServico(servico.getTarefas())) {
-                servico.setStatusServico(StatusServico.CONCLUIDO);
-                LogServico logServico = new LogServico();
-                logServico.setLog("Servico " + servico.getCodigoServico() + " foi concluído.");
-                logServico.setServico(servico);
-                logServico.setDataAlteracao(LocalDateTime.now());
-                logServico.setUsuario(usuarioLogado.getUsuario());
-                servico.getLogServicos().add(logServico);
-            }
-        }
 
-        this.servicoDao.salvar(servico);
-        resultado.include("success", "mensagem.salvar.sucesso");
-        resultado.redirectTo(InicioController.class).index();
+            this.servicoDao.salvar(servico);
+            resultado.include("success", "mensagem.salvar.sucesso");
+            resultado.redirectTo(InicioController.class).index();
         } catch (Exception e) {
             resultado.include("error", "mensagem.salvar.error");
             resultado.redirectTo(InicioController.class).index();
@@ -132,9 +132,9 @@ public class ServicosController extends ControladorSisInt<Servico> {
         resultado.include("servicos", servicos);
     }
 
-    public void detalhes(Long id){
+    public void detalhes(Long id) {
         Servico servico = servicoDao.BuscarPorId(id);
-        resultado.include("servico",servico);
+        resultado.include("servico", servico);
     }
 
     @Get
@@ -142,27 +142,29 @@ public class ServicosController extends ControladorSisInt<Servico> {
         Servico servico = servicoDao.BuscarPorId(id);
         JsonArray listaServicos = new JsonArray();
 
-        if(servico != null) {
-            for (Tarefa tarefa: servico.getTarefas()) {
-                JsonObject jsonObject = new JsonObject();
-                String pendente;
-                if(tarefa.isPendente()) {
-                    pendente="true";
-                } else {
-                    pendente="false";
+        if (servico != null) {
+            for (Tarefa tarefa : servico.getTarefas()) {
+                if (!tarefa.isDeletado()) {
+                    JsonObject jsonObject = new JsonObject();
+                    String pendente;
+                    if (tarefa.isPendente()) {
+                        pendente = "true";
+                    } else {
+                        pendente = "false";
+                    }
+                    jsonObject.addProperty("id", tarefa.getId());
+                    jsonObject.addProperty("titulo", tarefa.getTitulo());
+                    jsonObject.addProperty("statusValor", tarefa.getStatusTarefa().getValor());
+                    jsonObject.addProperty("statusChave", tarefa.getStatusTarefa().getChave());
+                    jsonObject.addProperty("dataFechamento", tarefa.getDataFechamento().toString());
+                    jsonObject.addProperty("descricao", tarefa.getDescricao());
+                    jsonObject.addProperty("servicoId", tarefa.getServico().getId());
+                    jsonObject.addProperty("tecnicoId", tarefa.getTecnico().getId());
+                    jsonObject.addProperty("codigoTarefa", tarefa.getCodigoTarefa());
+                    jsonObject.addProperty("dataAbertura", tarefa.getDataAbertura().toString());
+                    jsonObject.addProperty("pendente", pendente);
+                    listaServicos.add(jsonObject);
                 }
-                jsonObject.addProperty("id", tarefa.getId());
-                jsonObject.addProperty("titulo", tarefa.getTitulo());
-                jsonObject.addProperty("statusValor", tarefa.getStatusTarefa().getValor());
-                jsonObject.addProperty("statusChave", tarefa.getStatusTarefa().getChave());
-                jsonObject.addProperty("dataFechamento", tarefa.getDataFechamento().toString());
-                jsonObject.addProperty("descricao", tarefa.getDescricao());
-                jsonObject.addProperty("servicoId", tarefa.getServico().getId());
-                jsonObject.addProperty("tecnicoId", tarefa.getTecnico().getId());
-                jsonObject.addProperty("codigoTarefa", tarefa.getCodigoTarefa());
-                jsonObject.addProperty("dataAbertura", tarefa.getDataAbertura().toString());
-                jsonObject.addProperty("pendente",pendente);
-                listaServicos.add(jsonObject);
             }
             resultado.use(Results.json()).withoutRoot().from(listaServicos).recursive().serialize();
         } else {
@@ -175,8 +177,8 @@ public class ServicosController extends ControladorSisInt<Servico> {
         Servico servico = servicoDao.BuscarPorId(id);
         JsonArray listaServicos = new JsonArray();
 
-        if(servico != null) {
-            for (LogServico logServico: servico.getLogServicos()) {
+        if (servico != null) {
+            for (LogServico logServico : servico.getLogServicos()) {
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("id", logServico.getId());
                 jsonObject.addProperty("titulo", logServico.getLog());
@@ -191,12 +193,12 @@ public class ServicosController extends ControladorSisInt<Servico> {
         }
     }
 
-    public void editar(Long id){
-        Servico  servico = this.servicoDao.BuscarPorId(id);
+    public void editar(Long id) {
+        Servico servico = this.servicoDao.BuscarPorId(id);
         resultado.include("setores", servicosNegocio.geraListaOpcoesSetor());
         resultado.include("usuarios", servicosNegocio.geraListaOpcoesUsuarios());
         resultado.include("status", OpcaoSelect.toListaOpcoes(StatusServico.values()));
-        resultado.include("statusTarefa",OpcaoSelect.toListaOpcoes(StatusTarefa.values()));
+        resultado.include("statusTarefa", OpcaoSelect.toListaOpcoes(StatusTarefa.values()));
         resultado.include("prioridades", OpcaoSelect.toListaOpcoes(Prioridade.values()));
         resultado.include("listaLogs", servico.getLogServicos());
         resultado.include(servico);
@@ -207,8 +209,9 @@ public class ServicosController extends ControladorSisInt<Servico> {
     @Transacional
     public void remover(Long id) {
         Servico servico = this.dao.buscarPorId(id);
-        dao.remover(servico);
-//        servico.setDeletado(true);
+//        dao.remover(servico);
+        servico.getTarefas().stream().forEach((tarefa -> tarefa.setDeletado(true)));
+        servico.setDeletado(true);
         resultado.redirectTo(InicioController.class).index();
     }
 }

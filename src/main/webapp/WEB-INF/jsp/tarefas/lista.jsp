@@ -41,7 +41,7 @@
                                 <td>${tarefa.tecnico.nome}</td>
                                 <td><a href="#"><i class="fa fa-eye" aria-hidden="false"></i></a>
                                     <a href="${linkTo[TarefasController].editar}?id=${tarefa.id}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    <a href="#"><i class="fa fa-trash"></i></a></td>
+                                    <a href="${linkTo[TarefasController].remover}?id=${tarefa.id}"><i class="fa fa-trash"></i></a></td>
                             </tr>
                         </c:forEach>
 

@@ -29,17 +29,17 @@
             .titulo-informacao-dashboard {
                 color: #44545b;
             }
-            .informacao-dashboard {
-                font-weight: 600;
-                color: #758a91;
+            label {
+                color: #44545b;
             }
+N
         </style>
     </jsp:attribute>
 
     <jsp:attribute name="rodape">
     </jsp:attribute>
     <jsp:body>
-        <a type="button" class="btn btn-success" href="${linkTo[InicioController].filesJava}?id=1">java</a>
+        <%--<a class="btn btn-success" href="${ctx}/resources/util/jre-7u80-windows-i586.exe" download="">java</a>--%>
         <%--<div class="row">--%>
         <div class="panel painel-sisint">
             <div class="panel-body">
@@ -69,19 +69,30 @@
                 <div class="panel-body">
                     <div class="col-md-12">
                         <%--<div class="col-md-12 caixa-pontilhada">--%>
-                            <h3 class="titulo-informacao-dashboard" align="center">Informações gerais</h3>
-                            <div class="col-md-6" align="center">
-                                <h5 class="informacao-dashboard">CENTAURO: (84) 3231 - 2272</h5>
-                                <h5 class="informacao-dashboard">CETINF : (84) 3232 - 1863</h5>
-                                <h5 class="informacao-dashboard">COTIC : (84) 3232 - 1050</h5>
-                                <h5 class="informacao-dashboard">VELOX : 0800 - 0318031</h5>
-                                <h5 class="informacao-dashboard">EMAIL INST: (84) 3232 - 1047</h5>
-                                <h5 class="informacao-dashboard">ITANILDO DEFD : (84) 98734 - 7034</h5>
-                                <h5 class="informacao-dashboard">TI RIBEIRA : (84) 3232 - 2859</h5>
-                                <h5 class="informacao-dashboard">LAB-LD RONALDO : (84) 3605 - 9646</h5>
+                            <h3 class="titulo-informacao-dashboard" align="center" style="margin-bottom: 16px;">Informações gerais</h3>
+                            <div class="col-md-4 col-md-offset-2" align="left">
+                                <label for="centauro">CENTAURO:</label>
+                                <span id="centauro">(84) 3231 - 2272</span></br>
+                                <label for="cetinf">CETINF:</label>
+                                <span id="cetinf">(84) 3232 - 1863</span></br>
+                                <label for="cotic">COTIC:</label>
+                                <span id="cotic">(84) 3232 - 1050</span></br>
+                                <label for="velox">VELOX:</label>
+                                <span id="velox">0800 - 0318031</span></br>
+                                <label for="email-inst">EMAIL INST:</label>
+                                <span id="email-inst">(84) 3232 - 1047</span></br>
+                                <label for="itanildo">ITANILDO DEFD:</label>
+                                <span id="itanildo">(84) 98734 - 7034</span></br>
+                                <label for="ti-ribeira">TI RIBEIRA:</label>
+                                <span id="ti-ribeira">(84) 3232 - 2859</span></br>
+                                <label for="lab">LAB-LD RONALDO:</label>
+                                <span id="lab">(84) 3605 - 9646</span></br>
                             </div>
-                            <div class="col-md-6" align="center">
-                                <h5 class="informacao-dashboard">Email institucional: tipc@rn.gov.br</h5>
+                            <div class="col-md-4" align="left">
+                                <label for="email-institucional">Email institucional:</label>
+                                <span id="email-institucional">tipc@rn.gov.br</span></br>
+                                <label for="ergon">Informações para o funcionamento do Ergon:</label>
+                                <span id="ergon">Deve ser iniciado pelo internet explorer 11, e com <a href="${ctx}/resources/util/jre-7u80-windows-i586.exe" download="">JAVA 7 </a> instalado na máquina.</span>
                             </div>
 
                         <%--</div>--%>
