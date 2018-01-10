@@ -30,6 +30,7 @@
                     <input type="hidden" name="usuario.id" value="${usuario.id}">
                     <input type="hidden" name="usuario.tipoUsuario" value="${usuario.tipoUsuario}">
                     <input type="hidden" name="usuario.senha" value="${usuario.senha}">
+                    <input type="hidden" name="usuario.matricula" value="${usuario.matricula}">
                     <%--<input type="hidden" name="usuario.dataCadastro" value="${usuario.tipoUsuario}">--%>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Nome</label>
@@ -91,12 +92,15 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Modal Header</h4>
+                                <h4 class="modal-title">Perfil do usuário</h4>
                             </div>
                             <div class="modal-body">
 
                                     <input type="hidden" name="usuario.id" value="${usuario.id}">
-                                    <div class="form-group">
+                                <input type="hidden" name="usuario.matricula" value="${usuario.matricula}">
+                                <input type="hidden" name="usuario.tipoUsuario" value="${usuario.tipoUsuario}">
+
+                                <div class="form-group">
                                         <label for="senha-antiga">Senha antiga: </label>
                                             <input class="form-control" id="senha-antiga" name="usuario.senha" type="password">
                                             <div class="help-block with-errors"></div>

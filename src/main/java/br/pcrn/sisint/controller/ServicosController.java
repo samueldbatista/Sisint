@@ -1,6 +1,10 @@
 package br.pcrn.sisint.controller;
 
 import br.com.caelum.vraptor.*;
+import br.com.caelum.vraptor.jasperreports.Report;
+import br.com.caelum.vraptor.jasperreports.download.ReportDownload;
+import br.com.caelum.vraptor.jasperreports.formats.ExportFormats;
+import br.com.caelum.vraptor.observer.download.Download;
 import br.com.caelum.vraptor.validator.Validator;
 import br.com.caelum.vraptor.view.Results;
 import br.pcrn.sisint.anotacoes.Seguranca;
@@ -11,10 +15,12 @@ import br.pcrn.sisint.dao.UsuarioDao;
 import br.pcrn.sisint.dominio.*;
 import br.pcrn.sisint.negocio.ServicosNegocio;
 import br.pcrn.sisint.util.OpcaoSelect;
+import br.pcrn.sisint.util.ReportJasperServico;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,6 +34,9 @@ public class ServicosController extends ControladorSisInt<Servico> {
     private UsuarioDao usuarioDao;
     private ServicosNegocio servicosNegocio;
     private EntidadeGenericaDao<Servico> dao;
+
+    @Inject
+    private ServletContext context;
 
     @Inject
     private UsuarioLogado usuarioLogado;
@@ -213,5 +222,16 @@ public class ServicosController extends ControladorSisInt<Servico> {
         servico.getTarefas().stream().forEach((tarefa -> tarefa.setDeletado(true)));
         servico.setDeletado(true);
         resultado.redirectTo(InicioController.class).index();
+    }
+
+    @Get
+    @Path("/imprimirProdutos")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public Download imprimirProdutos() {
+        List<Servico> lista = servicoDao.listar();
+        Report report = new ReportJasperServico<Servico>(lista, "relatorioServico.jasper", context);
+        ReportDownload download = new ReportDownload(report, ExportFormats.pdf(), false);
+        return download;
+
     }
 }

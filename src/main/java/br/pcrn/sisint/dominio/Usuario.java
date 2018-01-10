@@ -33,6 +33,8 @@ public class Usuario extends Entidade{
 
     private boolean deletado;
 
+    private String matricula;
+
     @Transient
     private String primeiroNome;
 
@@ -137,5 +139,13 @@ public class Usuario extends Entidade{
 
     public void setConfirmaSenha(String confirmaSenha) {
         this.confirmaSenha = confirmaSenha;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
     }
 }

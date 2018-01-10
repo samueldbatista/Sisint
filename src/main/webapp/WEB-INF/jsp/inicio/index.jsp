@@ -39,7 +39,7 @@ N
     <jsp:attribute name="rodape">
     </jsp:attribute>
     <jsp:body>
-        <%--<a class="btn btn-success" href="${ctx}/resources/util/jre-7u80-windows-i586.exe" download="">java</a>--%>
+        <a class="btn btn-success" href="${linkTo[ServicosController].imprimirProdutos}" href="#">relatorio</a>
         <%--<div class="row">--%>
         <div class="panel painel-sisint">
             <div class="panel-body">
