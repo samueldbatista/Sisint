@@ -23,8 +23,8 @@
                 <h4 align="center">Termo de responsabilidade</h4>
             </div>
             <div class="panel-body">
-                <form id="formTarefa" class="form-horizontal" action="${linkTo[TermoResponsabilidadeController].salvar}" method="post">
-                    <input type="hidden" name="setor.id" value="${setor.id}">
+                <form id="formTarefa" class="form-horizontal" action="${linkTo[TermoResponsabilidadeController].imprimirTermo}" method="get">
+                    <%--<input type="hidden" name="setor.id" value="${setor.id}">--%>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Equipamentos: </label>
                         <div class="col-sm-10">

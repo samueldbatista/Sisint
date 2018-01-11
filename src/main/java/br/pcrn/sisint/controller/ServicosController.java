@@ -224,14 +224,14 @@ public class ServicosController extends ControladorSisInt<Servico> {
         resultado.redirectTo(InicioController.class).index();
     }
 
-    @Get
-    @Path("/imprimirProdutos")
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public Download imprimirProdutos() {
-        List<Servico> lista = servicoDao.listar();
-        Report report = new ReportJasperServico<Servico>(lista, "relatorioServico.jasper", context);
-        ReportDownload download = new ReportDownload(report, ExportFormats.pdf(), false);
-        return download;
-
-    }
+//    @Get
+//    @Path("/imprimirProdutos")
+//    @SuppressWarnings({ "unchecked", "rawtypes" })
+//    public Download imprimirProdutos() {
+//        List<Servico> lista = servicoDao.listar();
+//        Report report = new ReportJasperServico<Servico>(lista, "relatorioServico.jasper", context);
+//        ReportDownload download = new ReportDownload(report, ExportFormats.pdf(), false);
+//        return download;
+//
+//    }
 }

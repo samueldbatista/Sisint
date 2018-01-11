@@ -1,11 +1,10 @@
 package br.pcrn.sisint.controller;
 
-import br.com.caelum.vraptor.Controller;
-import br.com.caelum.vraptor.Post;
-import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.*;
 import br.com.caelum.vraptor.jasperreports.Report;
 import br.com.caelum.vraptor.jasperreports.download.ReportDownload;
 import br.com.caelum.vraptor.jasperreports.formats.ExportFormats;
+import br.com.caelum.vraptor.observer.download.Download;
 import br.pcrn.sisint.anotacoes.Transacional;
 import br.pcrn.sisint.dominio.Servico;
 import br.pcrn.sisint.dominio.TermoResponsabilidade;
@@ -13,6 +12,8 @@ import br.pcrn.sisint.util.ReportJasperServico;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class TermoResponsabilidadeController extends Controlador {
@@ -34,8 +35,13 @@ public class TermoResponsabilidadeController extends Controlador {
 
     }
 
-    public void imprimirTermo(TermoResponsabilidade termo) {
-        Report report = new ReportJasperServico<Servico>(termo,"relatorioServico.jasper", context);
+    @Get
+    @Path("/imprimirTermo")
+    public Download imprimirTermo(TermoResponsabilidade termoResponsabilidade) {
+        List<TermoResponsabilidade> termos =  new ArrayList<>();
+        termos.add(termoResponsabilidade);
+        Report report = new ReportJasperServico<TermoResponsabilidade>(termos,"relatorioServico.jasper", context);
         ReportDownload download = new ReportDownload(report, ExportFormats.pdf(), false);
+        return download;
     }
 }

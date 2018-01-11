@@ -7,9 +7,10 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 import br.com.caelum.vraptor.jasperreports.Report;
 import br.pcrn.sisint.dominio.Entidade;
+import br.pcrn.sisint.dominio.TermoResponsabilidade;
 
 @SuppressWarnings("rawtypes")
-public class ReportJasperServico<T extends Entidade> implements Report{
+public class ReportJasperServico<T extends TermoResponsabilidade> implements Report{
 
     private final List<T> data;
     private Map<String, Object> parameters;
