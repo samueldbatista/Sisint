@@ -12,6 +12,14 @@ public class TermoResponsabilidade {
     private String texto;
 
 
+    public TermoResponsabilidade(){
+
+    }
+
+    public TermoResponsabilidade(String texto) {
+        this.texto = texto;
+    }
+
     public String getNumeroTermo() {
         return numeroTermo;
     }

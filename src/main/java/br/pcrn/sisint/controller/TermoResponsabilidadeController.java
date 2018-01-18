@@ -39,7 +39,16 @@ public class TermoResponsabilidadeController extends Controlador {
     @Path("/imprimirTermo")
     public Download imprimirTermo(TermoResponsabilidade termoResponsabilidade) {
         List<TermoResponsabilidade> termos =  new ArrayList<>();
+        List<String> equips = new ArrayList<>();
+        equips.add("Roteador");
+        equips.add("Computador");
+        equips.add("Mouse");
+        equips.add("Monitor");
+        TermoResponsabilidade termo1 = new TermoResponsabilidade("PC");
+        termoResponsabilidade.setEquipamentos(equips);
         termos.add(termoResponsabilidade);
+        termos.add(termo1);
+
         Report report = new ReportJasperServico<TermoResponsabilidade>(termos,"relatorioServico.jasper", context);
         ReportDownload download = new ReportDownload(report, ExportFormats.pdf(), false);
         return download;

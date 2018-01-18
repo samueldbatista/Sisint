@@ -4,13 +4,12 @@ import br.pcrn.sisint.dominio.LogServico;
 import br.pcrn.sisint.dominio.Servico;
 import br.pcrn.sisint.dominio.StatusServico;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by samue on 17/09/2017.
  */
-public interface ServicoDao extends EntidadeGenericaDao<Servico> {
+public interface ServicoDao extends EntidadeDao<Servico> {
     Long contarTotalServicos();
     Long contarServicosStatus(StatusServico statusServico);
     @Override
@@ -21,4 +20,6 @@ public interface ServicoDao extends EntidadeGenericaDao<Servico> {
     public List<Servico> listarServicosEmAberto();
     Servico BuscarPorId(Long id);
     void salvarLogServico(LogServico logServico);
+
+    public void verificarConlusaoEAtualizar(Long id);
 }

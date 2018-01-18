@@ -2,7 +2,6 @@ package br.pcrn.sisint.controller;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.Message;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.pcrn.sisint.anotacoes.Transacional;
 import br.pcrn.sisint.dao.*;
@@ -23,7 +22,7 @@ public class TarefasController extends ControladorSisInt<Tarefa> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TarefasController.class);
     private TarefaDao tarefaDao;
-    private EntidadeGenericaDao<Tarefa> dao;
+    private EntidadeDao<Tarefa> dao;
 
     @Inject
     private UsuarioDao usuarioDao;
@@ -37,7 +36,7 @@ public class TarefasController extends ControladorSisInt<Tarefa> {
     }
 
     @Inject
-    public TarefasController(Result resultado, EntidadeGenericaDao<Tarefa> dao, TarefaDao tarefaDao) {
+    public TarefasController(Result resultado, EntidadeDao<Tarefa> dao, TarefaDao tarefaDao) {
         super(resultado);
         this.tarefaDao = tarefaDao;
         this.dao = dao;

@@ -4,15 +4,13 @@ import br.pcrn.sisint.dominio.Usuario;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import java.util.List;
 import java.util.Optional;
 
 /**
  * Created by samue on 08/09/2017.
  */
-public class UsuarioJpaDao extends EntidadeGenericaJpaDao<Usuario> implements UsuarioDao {
+public class UsuarioJpaDao extends EntidadeJpaDao<Usuario> implements UsuarioDao {
 
     /**
      * @deprecated CDI

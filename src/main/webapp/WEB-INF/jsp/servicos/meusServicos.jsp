@@ -56,9 +56,9 @@
                                 <td class="date-column">${servico.dataFechamento}</td>
                                 <td>${servico.tecnico.nome}</td>
                                 <td>${servico.setor.nome}</td>
-                                <td><a href="${linkTo[ServicosController].detalhes}?id=${servico.id}"><i class="fa fa-eye" aria-hidden="false"></i></a>
-                                    <a href="${linkTo[ServicosController].editar}?id=${servico.id}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    <a href="${linkTo[ServicosController].logServico}?id=${servico.id}">
+                                <td><a title="Detalhes" href="${linkTo[ServicosController].detalhes}?id=${servico.id}"><i class="fa fa-eye" aria-hidden="false"></i></a>
+                                    <a title="Editar" href="${linkTo[ServicosController].editar}?id=${servico.id}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                    <a title="Visualizar Log do serviço" href="${linkTo[ServicosController].logServico}?id=${servico.id}">
                                         <i class="fa fa-list-ul" aria-hidden="true"></i></a>
                                     <a href="#"><i class="fa fa-trash"></i></a></td>
                             </tr>

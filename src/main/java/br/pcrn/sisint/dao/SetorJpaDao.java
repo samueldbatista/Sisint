@@ -4,13 +4,10 @@ import br.pcrn.sisint.dominio.Setor;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SetorJpaDao extends EntidadeGenericaJpaDao<Setor> implements SetorDao{
+public class SetorJpaDao extends EntidadeJpaDao<Setor> implements SetorDao{
     /**
      * @deprecated CDI
      */

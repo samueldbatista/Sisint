@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 
 @Entity
 public class LogServico extends Entidade{
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

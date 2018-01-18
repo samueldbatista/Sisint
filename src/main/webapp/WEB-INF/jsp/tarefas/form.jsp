@@ -85,12 +85,14 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Possui pendência: </label>
                         <div class="col-sm-10">
-                            <c:if test="${!tarefa.pendente}">
-                                <input type="checkbox" name="tarefa.pendente" checked="${tarefa.pendente}"/>
-                            </c:if>
-                            <c:if test="${tarefa.pendente}">
-                                <input type="checkbox" name="tarefa.pendente"/>
-                            </c:if>
+                            <c:choose>
+                                <c:when test="${tarefa.pendente}">
+                                    <input type="checkbox" name="tarefa.pendente" checked />
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="checkbox" name="tarefa.pendente"/>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </div>
                     <div class="form-group">

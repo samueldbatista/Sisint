@@ -26,6 +26,7 @@ public class TarefaNegocio {
 
     public void salvar (Tarefa tarefa) {
         Tarefa tarefaBanco = tarefaDao.buscarPorId(tarefa.getId());
+        servicoDao.verificarConlusaoEAtualizar(tarefa.getServico().getId());
         String mensagemLog = "O usuário "+ usuarioLogado.getUsuario().getNome()+" alterou a tarefa. " + compararTarefaEGerarLog(tarefa,tarefaBanco);
         LogServico logServico = new LogServico();
         logServico.setLog(mensagemLog);
@@ -50,6 +51,10 @@ public class TarefaNegocio {
             retorno = retorno + "Descrição modificada de " +tarefaBanco.getDescricao()+ " para " +tarefa.getDescricao() + ". ";
         }
         return retorno;
+    }
+
+    private void verificarConclusaoServico(Tarefa tarefa) {
+
     }
 
 }

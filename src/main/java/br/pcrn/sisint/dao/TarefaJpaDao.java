@@ -7,11 +7,9 @@ import br.pcrn.sisint.dominio.UsuarioLogado;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.swing.text.html.parser.Entity;
-import java.math.BigInteger;
 import java.util.List;
 
-public class TarefaJpaDao extends EntidadeGenericaJpaDao<Tarefa> implements TarefaDao{
+public class TarefaJpaDao extends EntidadeJpaDao<Tarefa> implements TarefaDao{
 
     @Inject
     private UsuarioLogado usuarioLogado;

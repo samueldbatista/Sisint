@@ -1,21 +1,16 @@
 package br.pcrn.sisint.controller;
 
 import br.com.caelum.vraptor.*;
-import br.com.caelum.vraptor.jasperreports.Report;
-import br.com.caelum.vraptor.jasperreports.download.ReportDownload;
-import br.com.caelum.vraptor.jasperreports.formats.ExportFormats;
-import br.com.caelum.vraptor.observer.download.Download;
 import br.com.caelum.vraptor.validator.Validator;
 import br.com.caelum.vraptor.view.Results;
 import br.pcrn.sisint.anotacoes.Seguranca;
 import br.pcrn.sisint.anotacoes.Transacional;
-import br.pcrn.sisint.dao.EntidadeGenericaDao;
+import br.pcrn.sisint.dao.EntidadeDao;
 import br.pcrn.sisint.dao.ServicoDao;
 import br.pcrn.sisint.dao.UsuarioDao;
 import br.pcrn.sisint.dominio.*;
 import br.pcrn.sisint.negocio.ServicosNegocio;
 import br.pcrn.sisint.util.OpcaoSelect;
-import br.pcrn.sisint.util.ReportJasperServico;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -33,7 +28,7 @@ public class ServicosController extends ControladorSisInt<Servico> {
     private Validator validador;
     private UsuarioDao usuarioDao;
     private ServicosNegocio servicosNegocio;
-    private EntidadeGenericaDao<Servico> dao;
+    private EntidadeDao<Servico> dao;
 
     @Inject
     private ServletContext context;
@@ -49,7 +44,7 @@ public class ServicosController extends ControladorSisInt<Servico> {
     }
 
     @Inject
-    public ServicosController(Result resultado, EntidadeGenericaDao<Servico> dao, ServicoDao servicoDao, Validator validador, UsuarioDao usuarioDao,
+    public ServicosController(Result resultado, EntidadeDao<Servico> dao, ServicoDao servicoDao, Validator validador, UsuarioDao usuarioDao,
                               ServicosNegocio servicosNegocio) {
         super(resultado);
         this.dao = dao;
@@ -222,6 +217,16 @@ public class ServicosController extends ControladorSisInt<Servico> {
         servico.getTarefas().stream().forEach((tarefa -> tarefa.setDeletado(true)));
         servico.setDeletado(true);
         resultado.redirectTo(InicioController.class).index();
+    }
+
+    @Path("/assumirServico")
+    @Transacional
+    public void assumirServico(Long id) {
+        Servico servico = servicoDao.BuscarPorId(id);
+        servico.setTecnico(usuarioLogado.getUsuario());
+        servico.setStatusServico(StatusServico.EM_EXECUCAO);
+        servicoDao.salvar(servico);
+        resultado.redirectTo(ServicosController.class).meusServicos();
     }
 
 //    @Get

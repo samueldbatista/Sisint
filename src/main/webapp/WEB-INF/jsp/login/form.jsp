@@ -19,7 +19,7 @@
 
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <title>Title</title>
+    <title>Sistema de Integração - PCRN</title>
 </head>
 <body style="background-color: #3498db;">
 <jsp:include page="/WEB-INF/jsp/erros/msgError.jsp"/>

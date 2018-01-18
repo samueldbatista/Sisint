@@ -2,10 +2,9 @@ package br.pcrn.sisint.dao;
 
 import br.pcrn.sisint.dominio.Setor;
 
-import java.util.Collection;
 import java.util.List;
 
-public interface SetorDao extends EntidadeGenericaDao<Setor> {
+public interface SetorDao extends EntidadeDao<Setor> {
     @Override
     List<Setor> listar();
 

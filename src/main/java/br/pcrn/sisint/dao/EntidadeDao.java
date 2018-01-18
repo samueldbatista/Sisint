@@ -4,7 +4,7 @@ import br.pcrn.sisint.dominio.Entidade;
 
 import java.util.Collection;
 
-public interface EntidadeGenericaDao<T extends Entidade> {
+public interface EntidadeDao<T extends Entidade> {
 
     T buscarPorId(Long id);
     T salvar(T entidade);

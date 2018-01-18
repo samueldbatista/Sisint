@@ -7,14 +7,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * Created by samue on 17/09/2017.
  */
-public class ServicoJpaDao extends EntidadeGenericaJpaDao<Servico> implements ServicoDao {
+public class ServicoJpaDao extends EntidadeJpaDao<Servico> implements ServicoDao {
     @Inject
     private TarefaDao tarefaDao;
 
@@ -38,28 +37,28 @@ public class ServicoJpaDao extends EntidadeGenericaJpaDao<Servico> implements Se
         return super.salvar(servico);
     }
 
-    private void removerTarefas(Servico servico){
+    private void removerTarefas(Servico servico) {
         boolean deletar = true;
-        if(servico.getId() != null) {
+        if (servico.getId() != null) {
             Servico servicoBanco = buscarPorId(servico.getId());
-            if(servicoBanco.getTarefas() != null ) {
-                for (Tarefa tarefa: servicoBanco.getTarefas()) {
-                    if(servico.getTarefas() != null){
-                    for (Tarefa tarefaAux: servico.getTarefas()) {
-                        if(tarefa.getId() == tarefaAux.getId()) {
-                            deletar = false;
+            if (servicoBanco.getTarefas() != null) {
+                for (Tarefa tarefa : servicoBanco.getTarefas()) {
+                    if (servico.getTarefas() != null) {
+                        for (Tarefa tarefaAux : servico.getTarefas()) {
+                            if (tarefa.getId() == tarefaAux.getId()) {
+                                deletar = false;
+                            }
                         }
-                    }
                     } else {
                         deletar = true;
                     }
-                    if(deletar == true) {
+                    if (deletar == true) {
                         LogServico logServico = new LogServico();
 
                         logServico.setUsuario(usuarioLogado.getUsuario());
                         logServico.setServico(servico);
                         logServico.setDataAlteracao(LocalDateTime.now());
-                        logServico.setLog("O usuário "+usuarioLogado.getUsuario().getNome()+" deletou a tarefa " + tarefa.getCodigoTarefa() + ".");
+                        logServico.setLog("O usuário " + usuarioLogado.getUsuario().getNome() + " deletou a tarefa " + tarefa.getCodigoTarefa() + ".");
                         servico.getLogServicos().add(logServico);
 //                        manager.refresh(servicoBanco);
                         tarefa.setDeletado(true);
@@ -77,19 +76,19 @@ public class ServicoJpaDao extends EntidadeGenericaJpaDao<Servico> implements Se
 
     private void referenciarLogsTarefas(Servico servico) {
         List<Tarefa> tarefas = servico.getTarefas();
-        if(servico.getTarefas() != null){
-            for (Tarefa tarefa: tarefas) {
-                if(tarefa.getServico() == null) {
+        if (servico.getTarefas() != null) {
+            for (Tarefa tarefa : tarefas) {
+                if (tarefa.getServico() == null) {
                     tarefa.setServico(servico);
                 }
-                if(tarefa.getId() == null) {
+                if (tarefa.getId() == null) {
                     tarefa.setDataAbertura(LocalDate.now());
                 }
             }
         }
-        if(servico.getLogServicos() != null) {
+        if (servico.getLogServicos() != null) {
             for (LogServico logServico : servico.getLogServicos()) {
-                if(logServico.getServico() == null) {
+                if (logServico.getServico() == null) {
                     logServico.setServico(servico);
                 }
             }
@@ -105,7 +104,7 @@ public class ServicoJpaDao extends EntidadeGenericaJpaDao<Servico> implements Se
     @Override
     public Long contarServicosStatus(StatusServico statusServico) {
         Query query = manager.createQuery("select count(s) from Servico s where s.deletado = false AND s.statusServico = :status");
-        query.setParameter("status",statusServico);
+        query.setParameter("status", statusServico);
         return (Long) query.getSingleResult();
     }
 
@@ -140,6 +139,25 @@ public class ServicoJpaDao extends EntidadeGenericaJpaDao<Servico> implements Se
     public void salvarLogServico(LogServico logServico) {
         Servico servico = buscarPorId(logServico.getServico().getId());
         servico.getLogServicos().add(logServico);
+    }
+
+    public void verificarConlusaoEAtualizar(Long id) {
+        Servico servico = buscarPorId(id);
+        boolean concluida = true;
+        if (servico.getTarefas() != null) {
+            for (Tarefa tarefa : servico.getTarefas()) {
+                if (!tarefa.getStatusTarefa().equals(StatusTarefa.CONCLUIDO)) {
+                    concluida = false;
+                }
+            }
+        } else {
+            concluida = false;
+        }
+
+        if(concluida) {
+            servico.setStatusServico(StatusServico.CONCLUIDO);
+            manager.merge(servico);
+        }
     }
 
 }

@@ -11,6 +11,8 @@
         <class>br.pcrn.sisint.dominio.Setor</class>
         <class>br.pcrn.sisint.dominio.Tarefa</class>
         <class>br.pcrn.sisint.dominio.LogServico</class>
+        <class>br.pcrn.sisint.dominio.Equipamento</class>
+        <class>br.pcrn.sisint.dominio.Manutencao</class>
 
         <properties>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
@@ -18,7 +20,6 @@
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sisint" />
             <property name="javax.persistence.jdbc.user" value="root" />
 
-            <!--<property name="javax.persistence.jdbc.password" value="@h3f35t0!" />-->
             <property name="javax.persistence.jdbc.password" value="" />
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
@@ -41,7 +42,7 @@
             <!--<property name="javax.persistence.jdbc.password"-->
                       <!--value="postgres" />-->
 
-            <!--<property name="hibernate.hbm2ddl.auto" value="create"/>-->
+            <!--<property name="hibernate.hbm2ddl.auto" value="update"/>-->
             <!--<property name="hibernate.show_sql" value="true"/>-->
 
         </properties>

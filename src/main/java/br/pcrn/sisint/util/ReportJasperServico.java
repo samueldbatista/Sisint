@@ -22,6 +22,7 @@ public class ReportJasperServico<T extends TermoResponsabilidade> implements Rep
         this.template = template;
         this.parameters = new HashMap<String, Object>();
         addParameter("diretorio_base", context.getRealPath("/") );
+//        addParameter("termo",data);
 
     }
 

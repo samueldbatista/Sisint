@@ -5,12 +5,12 @@ import br.pcrn.sisint.dominio.Entidade;
 import javax.persistence.EntityManager;
 import java.util.Collection;
 
-public abstract class EntidadeGenericaJpaDao<T extends Entidade> implements EntidadeGenericaDao<T> {
+public abstract class EntidadeJpaDao<T extends Entidade> implements EntidadeDao<T> {
 
     protected EntityManager manager;
     protected Class<T> tClass;
 
-    public EntidadeGenericaJpaDao(EntityManager entityManager, Class<T> tClass) {
+    public EntidadeJpaDao(EntityManager entityManager, Class<T> tClass) {
         this.manager = entityManager;
         this.tClass = tClass;
     }
