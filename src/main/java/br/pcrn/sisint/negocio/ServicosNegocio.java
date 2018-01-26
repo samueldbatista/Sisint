@@ -45,6 +45,7 @@ public class ServicosNegocio {
 
     public List<OpcaoSelect> geraListaOpcoesSetor() {
         List<Setor> todos = this.setorDao.todos();
+        todos.sort((a,b) ->a.getNome().compareTo(b.getNome()));
         return todos.stream().map(
                 setor -> new OpcaoSelect(setor.getNome(), setor.getId()))
                 .collect(Collectors.toList());
@@ -140,8 +141,10 @@ public class ServicosNegocio {
             retorno = retorno + "Status modificado de " +tarefaAntiga.getStatusTarefa().getChave()
                     + " para " +tarefaNova.getStatusTarefa().getChave() + ". ";
         }
-        if(!tarefaAntiga.getDescricao().equals(tarefaNova.getDescricao())) {
-            retorno = retorno + "Descricap modificada de " +tarefaAntiga.getDescricao()+ " para " +tarefaNova.getDescricao() + ". ";
+        if(tarefaAntiga.getDescricao() != null) {
+            if(!tarefaAntiga.getDescricao().equals(tarefaNova.getDescricao())) {
+                retorno = retorno + "Descrição modificada de " +tarefaAntiga.getDescricao()+ " para " +tarefaNova.getDescricao() + ". ";
+            }
         }
         if(!tarefaAntiga.getTitulo().equals(tarefaNova.getTitulo())) {
             retorno = retorno + "Titulo modificado de " +tarefaAntiga.getTitulo()+ " para " +tarefaNova.getTitulo() + ". ";

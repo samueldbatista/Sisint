@@ -26,6 +26,7 @@
                         <tr>
                             <th>Titulo</th>
                             <th>Status</th>
+                            <th>Setor</th>
                             <th>Data de Fechamento</th>
                             <th>Técnico</th>
                             <th>Ações</th>
@@ -36,6 +37,7 @@
                             <tr>
                                 <td>${tarefa.titulo}</td>
                                 <td><span class="label">${tarefa.statusTarefa.chave}</span></td>
+                                <td>${tarefa.servico.setor.nome}</td>
                                 <td class="date-column">${tarefa.dataFechamento}</td>
                                 <td>${tarefa.tecnico.nome}</td>
                                 <td><a href="#"><i class="fa fa-eye" aria-hidden="false"></i></a>

@@ -7,6 +7,7 @@ import br.pcrn.sisint.anotacoes.Seguranca;
 import br.pcrn.sisint.anotacoes.Transacional;
 import br.pcrn.sisint.dao.EntidadeDao;
 import br.pcrn.sisint.dao.ServicoDao;
+import br.pcrn.sisint.dao.TarefaJpaDao;
 import br.pcrn.sisint.dao.UsuarioDao;
 import br.pcrn.sisint.dominio.*;
 import br.pcrn.sisint.negocio.ServicosNegocio;
@@ -18,6 +19,7 @@ import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Seguranca(tipoUsuario = TipoUsuario.TECNICO)
@@ -36,6 +38,8 @@ public class ServicosController extends ControladorSisInt<Servico> {
     @Inject
     private UsuarioLogado usuarioLogado;
 
+    @Inject
+    private TarefaJpaDao tarefaJpaDao;
     /**
      * @deprecated CDI eyes only
      */
@@ -55,6 +59,7 @@ public class ServicosController extends ControladorSisInt<Servico> {
     }
 
     public void form() {
+
         resultado.include("usuarios", servicosNegocio.geraListaOpcoesUsuarios());
         resultado.include("setores", servicosNegocio.geraListaOpcoesSetor());
         resultado.include("status", OpcaoSelect.toListaOpcoes(StatusServico.values()));
@@ -225,6 +230,30 @@ public class ServicosController extends ControladorSisInt<Servico> {
         Servico servico = servicoDao.BuscarPorId(id);
         servico.setTecnico(usuarioLogado.getUsuario());
         servico.setStatusServico(StatusServico.EM_EXECUCAO);
+        servicoDao.salvar(servico);
+        resultado.redirectTo(ServicosController.class).meusServicos();
+    }
+
+    @Path("/assumirServicoComTarefa")
+    @Transacional
+    public void assumirServicoComTarefa(Long id) {
+        Servico servico = servicoDao.BuscarPorId(id);
+        servico.setTecnico(usuarioLogado.getUsuario());
+        servico.setStatusServico(StatusServico.EM_EXECUCAO);
+        List<Tarefa> tarefas = new ArrayList<>();
+        Tarefa tarefa = new Tarefa();
+        String codigoTarefa = servico.getCodigoServico() + "T" + tarefaJpaDao.contarTotalTarefas();
+        tarefa.setCodigoTarefa(codigoTarefa);
+        tarefa.setDataAbertura(LocalDate.now());
+        tarefa.setDescricao(servico.getDescricao());
+        tarefa.setTitulo(servico.getTitulo());
+        tarefa.setDataFechamento(servico.getDataFechamento());
+        tarefa.setTecnico(servico.getTecnico());
+        tarefa.setDeletado(false);
+        tarefa.setServico(servico);
+        tarefa.setStatusTarefa(StatusTarefa.EM_EXECUCAO);
+        tarefas.add(tarefa);
+        servico.setTarefas(tarefas);
         servicoDao.salvar(servico);
         resultado.redirectTo(ServicosController.class).meusServicos();
     }

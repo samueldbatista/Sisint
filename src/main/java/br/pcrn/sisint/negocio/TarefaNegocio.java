@@ -24,10 +24,10 @@ public class TarefaNegocio {
     @Inject
     private UsuarioLogado usuarioLogado;
 
-    public void salvar (Tarefa tarefa) {
+    public void salvar(Tarefa tarefa) {
         Tarefa tarefaBanco = tarefaDao.buscarPorId(tarefa.getId());
-        servicoDao.verificarConlusaoEAtualizar(tarefa.getServico().getId());
-        String mensagemLog = "O usuário "+ usuarioLogado.getUsuario().getNome()+" alterou a tarefa. " + compararTarefaEGerarLog(tarefa,tarefaBanco);
+
+        String mensagemLog = "O usuário " + usuarioLogado.getUsuario().getNome() + " alterou a tarefa. " + compararTarefaEGerarLog(tarefa, tarefaBanco);
         LogServico logServico = new LogServico();
         logServico.setLog(mensagemLog);
         logServico.setDataAlteracao(LocalDateTime.now());
@@ -35,20 +35,27 @@ public class TarefaNegocio {
         logServico.setUsuario(usuarioLogado.getUsuario());
         tarefaDao.salvar(tarefa);
         servicoDao.salvarLogServico(logServico);
+        servicoDao.verificarConlusaoEAtualizar(tarefa.getServico().getId());
     }
 
 
     private String compararTarefaEGerarLog(Tarefa tarefa, Tarefa tarefaBanco) {
         String retorno = "";
-        if(!tarefaBanco.getTitulo().equals(tarefa.getTitulo())) {
-            retorno = retorno + "Titulo modificado de " +tarefaBanco.getTitulo()+ " para " +tarefa.getTitulo() + ". ";
+        if (!tarefaBanco.getTitulo().equals(tarefa.getTitulo())) {
+            retorno = retorno + "Titulo modificado de " + tarefaBanco.getTitulo() + " para " + tarefa.getTitulo() + ". ";
         }
-        if(!tarefaBanco.getStatusTarefa().equals(tarefa.getStatusTarefa())) {
-            retorno = retorno + "Status modificado de " +tarefaBanco.getStatusTarefa().getChave()
-                    + " para " +tarefa.getStatusTarefa().getChave() + ". ";
+        if (!tarefaBanco.getStatusTarefa().equals(tarefa.getStatusTarefa())) {
+            retorno = retorno + "Status modificado de " + tarefaBanco.getStatusTarefa().getChave()
+                    + " para " + tarefa.getStatusTarefa().getChave() + ". ";
         }
-        if(!tarefaBanco.getDescricao().equals(tarefa.getDescricao())) {
-            retorno = retorno + "Descrição modificada de " +tarefaBanco.getDescricao()+ " para " +tarefa.getDescricao() + ". ";
+        if(tarefaBanco.getDescricao() != null ) {
+            if (!tarefaBanco.getDescricao().equals(tarefa.getDescricao())) {
+                retorno = retorno + "Descrição modificada de " + tarefaBanco.getDescricao() + " para " + tarefa.getDescricao() + ". ";
+            }
+        } else {
+            if(tarefa.getDescricao() != null) {
+                retorno = retorno + "Descrição modificada para " + tarefa.getDescricao() + ". ";
+            }
         }
         return retorno;
     }

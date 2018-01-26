@@ -156,7 +156,7 @@ public class ServicoJpaDao extends EntidadeJpaDao<Servico> implements ServicoDao
 
         if(concluida) {
             servico.setStatusServico(StatusServico.CONCLUIDO);
-            manager.merge(servico);
+//            manager.merge(servico);
         }
     }
 

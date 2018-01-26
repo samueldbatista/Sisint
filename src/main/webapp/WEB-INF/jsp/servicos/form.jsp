@@ -36,6 +36,8 @@
         <script src="${ctx}/resources/js/servicos/tarefas.js"></script>
         <script>
             $('#form-servico-tarefa').validator();
+
+
         </script>
     </jsp:attribute>
 
@@ -136,7 +138,7 @@
 
                     <div id="cadastro-tarefa">
                         <div class="row" align="right">
-                            <button id="btnAdicionarTarefa" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                            <button id="btnAdicionarTarefa" type="button" class="btn btn-success" disabled data-toggle="modal" data-target="#myModal">
                                 Adicionar Tarefa
                             </button>
                         </div>
@@ -147,7 +149,7 @@
                 </div>
 
                 <div class="panel-footer" align="right">
-                    <button class="btn btn-primary" type="submit">Salvar</button>
+                    <button id="btn-salvar-servico" class="btn btn-primary" disabled type="submit">Salvar</button>
                 </div>
             </form>
                 <!-- Modal -->

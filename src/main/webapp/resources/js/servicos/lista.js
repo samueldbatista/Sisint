@@ -18,7 +18,7 @@ $(document).ready(function () {
     };
     $span.each(function () {
         var descricao =  $(this).text();
-        console.log(descricao);
+        // console.log(descricao);
         if(descricao == status.concluido) {
             $(this).addClass('label-success');
             $(this).removeClass('label-info');
@@ -31,6 +31,8 @@ $(document).ready(function () {
             $(this).addClass('label-warning');
         }
     });
+
+    console.log("oioioioio");
 
     // $(".date-column").each(function () {
     //    var data =  $(this).text();

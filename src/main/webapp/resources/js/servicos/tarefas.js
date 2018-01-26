@@ -290,4 +290,22 @@ $(document).ready(function () {
     $(".datePicker").datepicker({
         format: "dd/mm/yyyy"
     });
+
+    if($('#tecnico-servico').val() != "") {
+        $('#btnAdicionarTarefa').removeClass('disabled');
+    }
+
+    $('#tecnico-servico').change(function () {
+        var value = $(this).val();
+        if(value != "") {
+            console.log("não é nulo");
+            $('#btnAdicionarTarefa').removeAttr("disabled");
+
+        } else {
+            console.log("É nulo");
+            $('#btnAdicionarTarefa').attr('disabled','disabled');
+
+        }
+    });
+
 });

@@ -19,6 +19,13 @@
         <script src="${ctx}/resources/plugins/dataTables/datatables.js"><c:out value=""/></script>
         <script src="${ctx}/resources/plugins/dataTables/Buttons-1.4.2/js/buttons.html5.js"><c:out value=""/></script>
         <script src="${ctx}/resources/js/servicos/lista.js"></script>
+        <script>
+                $('.date-column').each(function () {
+                    console.log($(this).text());
+                    console.log('teste');
+                });
+
+        </script>
     </jsp:attribute>
 
     <jsp:body>
@@ -32,24 +39,26 @@
                     <table class="table table-bordered tabela">
                         <thead>
                         <tr>
+                            <th>Setor</th>
                             <th>Titulo</th>
                             <th>Status</th>
                             <th>Prioridade</th>
+                            <th>Data de Abertura</th>
                             <th>Data de Fechamento</th>
                             <th>Técnico</th>
-                            <th>Setor</th>
                             <th>Ações</th>
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach items="${servicos}" var="servico">
                         <tr>
+                            <td>${servico.setor.nome}</td>
                             <td>${servico.titulo}</td>
                             <td><span class="label">${servico.statusServico.chave}</span></td>
                             <td><span class="label">${servico.prioridade.chave}</span></td>
+                            <td class="date-column">${servico.dataAbertura}</td>
                             <td class="date-column">${servico.dataFechamento}</td>
                             <td>${servico.tecnico.nome}</td>
-                            <td>${servico.setor.nome}</td>
                             <td><a title="Detalhes" href="${linkTo[ServicosController].detalhes}?id=${servico.id}"><i class="fa fa-eye" aria-hidden="false"></i></a>
                                 <a title="Editar" href="${linkTo[ServicosController].editar}?id=${servico.id}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                 <a title="Log do serviço" href="${linkTo[ServicosController].logServico}?id=${servico.id}">

@@ -20,13 +20,13 @@
                 <div class="panel-title">Gerenciamento de tarefas</div>
             </div>
             <div class="panel-body" style="padding-top: 0px;">
-                <a class="btn btn-info" style="margin-bottom: 16px;" href="${linkTo[TarefasController].form}">Cadastrar</a>
                 <div class="tabela-servicos">
                     <table id="tabela-servico" class="table table-bordered tabela">
                         <thead>
                         <tr>
                             <th>Titulo</th>
                             <th>Status</th>
+                            <th>Setor</th>
                             <th>Data de Fechamento</th>
                             <th>Técnico</th>
                             <th>Ações</th>
@@ -34,14 +34,18 @@
                         </thead>
                         <tbody>
                         <c:forEach items="${tarefas}" var="tarefa">
-                            <tr>
+                            <tr class="linha-tabela">
                                 <td>${tarefa.titulo}</td>
-                                <td><span class="label">${tarefa.statusTarefa.chave}</span></td>
+                                <td><span class="label status">${tarefa.statusTarefa.chave}</span></td>
+                                <td>${tarefa.servico.setor.nome}</td>
                                 <td class="date-column">${tarefa.dataFechamento}</td>
                                 <td>${tarefa.tecnico.nome}</td>
                                 <td><a href="#"><i class="fa fa-eye" aria-hidden="false"></i></a>
                                     <a href="${linkTo[TarefasController].editar}?id=${tarefa.id}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    <a href="${linkTo[TarefasController].remover}?id=${tarefa.id}"><i class="fa fa-trash"></i></a></td>
+                                    <c:if test="${usuarioLogado.isAdmin()}">
+                                        <a href="${linkTo[TarefasController].remover}?id=${tarefa.id}"><i class="fa fa-trash"></i></a>
+                                    </c:if>
+                                </td>
                             </tr>
                         </c:forEach>
 

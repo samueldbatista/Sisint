@@ -61,8 +61,9 @@
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tarefas <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="${linkTo[TarefasController].lista}">Listar tarefas </a></li>
-                            <li><a href="${linkTo[TarefasController].tarefasAbertas}">Tarefas em aberto</a></li>
+                            <c:if test="${usuarioLogado.isAdmin()}">
+                                <li><a href="${linkTo[TarefasController].lista}">Listar tarefas </a></li></c:if>
+                            <!--<li><a href="${linkTo[TarefasController].tarefasAbertas}">Tarefas em aberto</a></li>-->
                             <li><a href="${linkTo[TarefasController].minhasTarefas}">Minhas tarefas</a></li>
                         </ul>
                     </li>
@@ -111,6 +112,7 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="${ctx}/resources/plugins/bootstrap3/js/bootstrap.js"><c:out value=""/></script>
     <script src="${ctx}/resources/plugins/dateRangePicker/moment.js"><c:out value=""/></script>
+    <script src="${ctx}/resources/plugins/moment/moment-with-locale.js"><c:out value=""/></script>
     <script src="${ctx}/resources/plugins/dataPicker/dataPicker-bootstrap.js"><c:out value=""/></script>
     <script src="${ctx}/resources/plugins/dataTables/datatables.js"><c:out value=""/></script>
     <script src="${ctx}/resources/plugins/dataTables/Buttons-1.4.2/js/buttons.html5.js"><c:out value=""/></script>

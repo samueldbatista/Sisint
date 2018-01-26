@@ -41,6 +41,7 @@
                             <th>Titulo</th>
                             <th>Status</th>
                             <th>Prioridade</th>
+                            <th>Data de Abertura</th>
                             <th>Data de Fechamento</th>
                             <th>Técnico</th>
                             <th>Setor</th>
@@ -53,6 +54,7 @@
                                 <td>${servico.titulo}</td>
                                 <td><span class="label">${servico.statusServico.chave}</span></td>
                                 <td><span class="label">${servico.prioridade.chave}</span></td>
+                                <td class="date-column">${servico.dataAbertura}</td>
                                 <td class="date-column">${servico.dataFechamento}</td>
                                 <td>${servico.tecnico.nome}</td>
                                 <td>${servico.setor.nome}</td>
