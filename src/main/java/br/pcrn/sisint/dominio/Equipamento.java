@@ -15,6 +15,7 @@ public class Equipamento extends Entidade{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String nome;
     private Long tombo;
     private String descricao;
     private String numeroSerie;
@@ -29,6 +30,10 @@ public class Equipamento extends Entidade{
         this.id = id;
     }
 
+    public void setNome(String nome) { this.nome = nome; }
+
+    public String getNome() { return nome; }
+
     public Long getTombo() {
         return tombo;
     }
@@ -37,9 +42,7 @@ public class Equipamento extends Entidade{
         this.tombo = tombo;
     }
 
-    public String getDescricao() {
-        return descricao;
-    }
+    public String getDescricao() { return descricao; }
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
